@@ -47,7 +47,7 @@ const ServiceSection = () => {
                         <Paper
                             elevation={3}
                             sx={{
-                                borderRadius: 3,
+                                borderRadius: 2,
                                 padding: 3,
                                 pt: 6,
                                 display: 'flex',

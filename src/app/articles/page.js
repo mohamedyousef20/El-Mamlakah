@@ -24,6 +24,7 @@ import {
     PhonelinkLock,
     PhoneAndroid
 } from '@mui/icons-material';
+import Link from 'next/link';
 
 const ArticleList = () => {
     const [articles, setArticles] = useState([]);
@@ -99,110 +100,112 @@ const ArticleList = () => {
                         ))
                         : displayedArticles.map((article) => (
                             <Grid item xs={12} sm={6} md={4} key={article.id}>
-                                <Card
-                                    sx={{
-                                        height: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        transition: 'transform 0.2s, box-shadow 0.2s',
-                                        '&:hover': {
-                                            transform: 'translateY(-5px)',
-                                            boxShadow: 6
-                                        }
-                                    }}
-                                >
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        image={article.image}
-                                        alt={article.title}
-                                    />
-                                    <CardContent sx={{ flexGrow: 1 }}>
-                                        <Box sx={{ mb: 2 }}>
-                                            <Chip
-                                                label={article.category}
-                                                size="small"
+                                <Link href={'/articles/ArticlePage'}>
+                                    <Card
+                                        sx={{
+                                            height: '100%',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            transition: 'transform 0.2s, box-shadow 0.2s',
+                                            '&:hover': {
+                                                transform: 'translateY(-5px)',
+                                                boxShadow: 6
+                                            }
+                                        }}
+                                    >
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            image={article.image}
+                                            alt={article.title}
+                                        />
+                                        <CardContent sx={{ flexGrow: 1 }}>
+                                            <Box sx={{ mb: 2 }}>
+                                                <Chip
+                                                    label={article.category}
+                                                    size="small"
+                                                    sx={{
+                                                        backgroundColor: '#006C35',
+                                                        color: 'white',
+                                                        fontFamily: "'Noto Sans Arabic', sans-serif"
+                                                    }}
+                                                />
+                                            </Box>
+                                            <Typography
+                                                gutterBottom
+                                                variant="h5"
+                                                component="h2"
+                                                sx={{
+                                                    color: '#333333',
+                                                    fontWeight: 'bold',
+                                                    fontFamily: "'Noto Sans Arabic', sans-serif"
+                                                }}
+                                            >
+                                                {article.title}
+                                            </Typography>
+                                            <Typography
+                                                color="text.secondary"
+                                                sx={{
+                                                    mb: 2,
+                                                    fontFamily: "'Noto Sans Arabic', sans-serif"
+                                                }}
+                                            >
+                                                {article.excerpt}
+                                            </Typography>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    mt: 2
+                                                }}
+                                            >
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <PhoneAndroid sx={{ fontSize: 20, color: '#006C35' }} />
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
+                                                    >
+                                                        {article.phonNumber}
+                                                    </Typography>
+                                                </Box>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                    <AccessTimeIcon sx={{ fontSize: 20, color: '#006C35' }} />
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
+                                                    >
+                                                        {article.readTime}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        </CardContent>
+                                        <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
+                                            <Button
+                                                variant="contained"
                                                 sx={{
                                                     backgroundColor: '#006C35',
                                                     color: 'white',
+                                                    '&:hover': {
+                                                        backgroundColor: '#004d00',
+                                                    },
                                                     fontFamily: "'Noto Sans Arabic', sans-serif"
                                                 }}
-                                            />
-                                        </Box>
-                                        <Typography
-                                            gutterBottom
-                                            variant="h5"
-                                            component="h2"
-                                            sx={{
-                                                color: '#333333',
-                                                fontWeight: 'bold',
-                                                fontFamily: "'Noto Sans Arabic', sans-serif"
-                                            }}
-                                        >
-                                            {article.title}
-                                        </Typography>
-                                        <Typography
-                                            color="text.secondary"
-                                            sx={{
-                                                mb: 2,
-                                                fontFamily: "'Noto Sans Arabic', sans-serif"
-                                            }}
-                                        >
-                                            {article.excerpt}
-                                        </Typography>
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
-                                                mt: 2
-                                            }}
-                                        >
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <PhoneAndroid sx={{ fontSize: 20, color: '#006C35' }} />
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
-                                                >
-                                                    {article.phonNumber}
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <AccessTimeIcon sx={{ fontSize: 20, color: '#006C35' }} />
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
-                                                >
-                                                    {article.readTime}
-                                                </Typography>
-                                            </Box>
-                                        </Box>
-                                    </CardContent>
-                                    <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                backgroundColor: '#006C35',
-                                                color: 'white',
-                                                '&:hover': {
-                                                    backgroundColor: '#004d00',
-                                                },
-                                                fontFamily: "'Noto Sans Arabic', sans-serif"
-                                            }}
-                                        >
-                                            اقرأ المزيد
-                                        </Button>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <StarIcon sx={{ color: '#FFD700', fontSize: 20 }} /> {/* Star icon for reviews */}
-                                            <Typography
-                                                variant="body2"
-                                                sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
                                             >
-                                                {article.reviews} تقييم
-                                            </Typography>
-                                        </Box>
-                                    </CardActions>
-                                </Card>
+                                                اقرأ المزيد
+                                            </Button>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <StarIcon sx={{ color: '#FFD700', fontSize: 20 }} /> {/* Star icon for reviews */}
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
+                                                >
+                                                    {article.reviews} تقييم
+                                                </Typography>
+                                            </Box>
+                                        </CardActions>
+                                    </Card>
+                            </Link>
                             </Grid>
                         ))}
                 </Grid>

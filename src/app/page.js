@@ -36,6 +36,7 @@ import ServiceSearchSection from '@/components/HomePage/ServiceSearchSection';
 import HomePageAboutUs from '@/components/HomePage/HomePageAboutUs';
 import ServiceSection from '@/components/HomePage/ServiceSection';
 import Link from 'next/link';
+import MainContent from '@/components/HomePage/MainContent';
 
 const theme = createTheme({
   direction: 'rtl',
@@ -66,7 +67,6 @@ export default function HomePage() {
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
-  const handleOpenVideoModal = () => setOpenVideoModal(true);
   const handleCloseVideoModal = () => setOpenVideoModal(false);
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
@@ -90,7 +90,10 @@ export default function HomePage() {
       <Stack spacing={2}>
         <Button color="inherit">الرئيسية</Button>
         <Button color="inherit">خدماتنا</Button>
-        <Button color="inherit">المقالات</Button>
+
+        <Link href={'/articles'}>
+          <Button color="inherit">المقالات</Button>
+        </Link>
         <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
         <Button color="inherit">اتصل بنا</Button>
         <Button variant="contained" color="primary">
@@ -119,12 +122,23 @@ export default function HomePage() {
                 spacing={2}
                 mb={{ xs: 2, sm: 0 }}  // margin bottom on mobile
                 alignItems="center"
+                justifyContent="center"  // centers the content horizontally
               >
-                <Typography variant="body2" display="flex" alignItems="center">
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  sx={{ color: '#006C35', cursor: 'pointer' }}  // phone text color and pointer cursor
+                >
                   <Phone sx={{ mr: 1 }} fontSize="small" />
                   +966 123 456 789
                 </Typography>
-                <Typography variant="body2" display="flex" alignItems="center">
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  sx={{ color: '#333333', cursor: 'pointer' }}  // email text color and pointer cursor
+                >
                   <Email sx={{ mr: 1 }} fontSize="small" />
                   info@company.com
                 </Typography>
@@ -168,7 +182,7 @@ export default function HomePage() {
                 المملكة
               </Typography>
 
-              
+
               {isMobile ? (
                 <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
                   <MenuIcon />
@@ -177,7 +191,7 @@ export default function HomePage() {
                 <Stack direction="row" spacing={2}>
                   <Button color="inherit">الرئيسية</Button>
                   <Button color="inherit">خدماتنا</Button>
-                  
+
                   <Link href={'/articles'}>
                     <Button color="inherit">المقالات</Button>
                   </Link>
@@ -190,8 +204,11 @@ export default function HomePage() {
                 </Stack>
               )}
             </Toolbar>
+
           </Container>
+
         </AppBar>
+        <ServiceSearchSection />
 
         {/* Mobile Drawer */}
         <Drawer
@@ -209,33 +226,8 @@ export default function HomePage() {
         {/* Main Content with Aside */}
         <Container sx={{ my: 4 }}>
           <Grid container spacing={4}>
-            {/* Aside Section */}
-            <Grid item xs={12} md={4}>
-              <Box sx={{ position: 'sticky', top: 16 }}>
-                {/* <ServiceSearchSection /> */}
-              </Box>
-            </Grid>
 
-            {/* Main Content Section */}
-            <Grid item xs={12} md={12}>
-              <Box textAlign="center" py={8}>
-                <Typography variant="h3" component="h1" gutterBottom color="primary">
-                  مرحباً بكم في مؤسسة المملكة 
-                </Typography>
-                <Typography variant="h5" component="h2" color="text.secondary" mb={4}>
-                  نقدم أفضل الحلول لعملائنا
-                </Typography>
-                <HomePageAboutUs />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  onClick={handleOpenVideoModal}
-                >
-                  شاهد الفيديو التعريفي
-                </Button>
-              </Box>
-            </Grid>
+            <MainContent />
           </Grid>
         </Container>
         <ServiceSection />

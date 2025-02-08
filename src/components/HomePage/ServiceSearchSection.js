@@ -9,7 +9,6 @@ import {
     InputLabel,
     Grid,
     Paper,
-    Divider,
     Stack,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
@@ -54,28 +53,30 @@ const ServiceSearchSection = () => {
 
     return (
       <>
-            {/* Title */}
-            <Typography
-                variant="h5"
-                align="center"
-                sx={{
-                    fontFamily: "'Noto Sans Arabic', sans-serif",
-                    color: "#006C35",
-                    fontWeight: "bold",
-                    mb: 2,
-                }}
-            >
-                البحث عن خدمة
-            </Typography>
-
-            <Divider sx={{ mb: 2 }} />
-
+            
+         
             {/* Search Inputs in Row Layout */}
             <Stack
                 direction="row"
+                alignItems={'center'}
                 spacing={2}
+                mt={4}
                 sx={{ flexWrap: "wrap", justifyContent: "center" }}
             >
+                <Typography
+                    variant="h5"
+                    align="center"
+                    sx={{
+                        fontFamily: "'Noto Sans Arabic', sans-serif",
+                        color: "#006C35",
+                        fontWeight: "bold",
+                        mb: 2,
+                    }}
+                >
+                    ابحث عن خدمة
+                </Typography>
+
+
                 {/* Service Selection */}
                 <FormControl fullWidth sx={{ maxWidth: 250 }}>
                     <InputLabel id="service-label">اختر الخدمة</InputLabel>
