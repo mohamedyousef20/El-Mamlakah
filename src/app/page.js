@@ -94,6 +94,10 @@ export default function HomePage() {
         <Link href={'/articles'}>
           <Button color="inherit">المقالات</Button>
         </Link>
+
+        <Link href={'/policy'}>
+          <Button color="inherit">سياسة الخصوصية</Button>
+        </Link>
         <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
         <Button color="inherit">اتصل بنا</Button>
         <Button variant="contained" color="primary">
@@ -196,6 +200,9 @@ export default function HomePage() {
                     <Button color="inherit">المقالات</Button>
                   </Link>
 
+                    <Link href={'/policy'}>
+                      <Button color="inherit">سياسة الخصوصية</Button>
+                    </Link>
                   <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
                   <Button color="inherit">اتصل بنا</Button>
                   <Button variant="contained" color="primary" onClick={handleOpenModal}>
