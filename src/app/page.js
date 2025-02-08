@@ -212,15 +212,15 @@ export default function HomePage() {
             {/* Aside Section */}
             <Grid item xs={12} md={4}>
               <Box sx={{ position: 'sticky', top: 16 }}>
-                <ServiceSearchSection />
+                {/* <ServiceSearchSection /> */}
               </Box>
             </Grid>
 
             {/* Main Content Section */}
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={12}>
               <Box textAlign="center" py={8}>
                 <Typography variant="h3" component="h1" gutterBottom color="primary">
-                  مرحباً بكم في شركتنا
+                  مرحباً بكم في مؤسسة المملكة 
                 </Typography>
                 <Typography variant="h5" component="h2" color="text.secondary" mb={4}>
                   نقدم أفضل الحلول لعملائنا

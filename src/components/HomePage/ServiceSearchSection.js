@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-    Container,
     Typography,
     Button,
     MenuItem,
@@ -9,12 +8,11 @@ import {
     FormControl,
     InputLabel,
     Grid,
-    Box,
     Paper,
     Divider,
-    Stack
-} from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+    Stack,
+} from "@mui/material";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 const ServiceSearchSection = () => {
     const regions = {
@@ -30,170 +28,138 @@ const ServiceSearchSection = () => {
         "منطقة نجران": ["نجران", "شرورة"],
         "منطقة الباحة": ["الباحة", "المخوة"],
         "منطقة الجوف": ["سكاكا", "دومة الجندل"],
-        "منطقة القصيم": ["بريدة", "عنيزة", "الزبيدة", "القناطر"]
+        "منطقة القصيم": ["بريدة", "عنيزة", "الزبيدة", "القناطر"],
     };
 
-    const [service, setService] = useState('');
-    const [area, setArea] = useState('');
-    const [province, setProvince] = useState('');
+    const [service, setService] = useState("");
+    const [area, setArea] = useState("");
+    const [province, setProvince] = useState("");
     const [availableProvinces, setAvailableProvinces] = useState([]);
 
-    const services = ['تنظيف', 'سباكة', 'كهرباء', 'نقل أثاث'];
+    const services = ["تنظيف", "سباكة", "كهرباء", "نقل أثاث"];
     const areas = Object.keys(regions);
 
     const handleAreaChange = (e) => {
         const selectedArea = e.target.value;
         setArea(selectedArea);
-        setProvince('');
+        setProvince("");
         setAvailableProvinces(regions[selectedArea] || []);
     };
 
     const handleSearch = () => {
-        console.log('Selected Service:', service);
-        console.log('Selected Area:', area);
-        console.log('Selected Province:', province);
+        console.log("Selected Service:", service);
+        console.log("Selected Area:", area);
+        console.log("Selected Province:", province);
     };
 
     return (
-        <Paper
-            elevation={3}
-            sx={{
-                p: 3,
-                mx: 2,
-                my: 4,
-                bgcolor: 'background.paper',
-                borderRadius: 2
-            }}
-        >
-            <Stack spacing={3} direction="column">
-                <Typography
-                    variant="h5"
-                    align="center"
-                    sx={{
-                        fontFamily: "'Noto Sans Arabic', sans-serif",
-                        color: '#006C35',
-                        fontWeight: 'bold',
-                        mb: 2
-                    }}
-                >
-                    البحث عن خدمة
-                </Typography>
+      <>
+            {/* Title */}
+            <Typography
+                variant="h5"
+                align="center"
+                sx={{
+                    fontFamily: "'Noto Sans Arabic', sans-serif",
+                    color: "#006C35",
+                    fontWeight: "bold",
+                    mb: 2,
+                }}
+            >
+                البحث عن خدمة
+            </Typography>
 
-                <Divider sx={{ mb: 2 }} />
+            <Divider sx={{ mb: 2 }} />
 
-                <FormControl fullWidth size="medium">
-                    <InputLabel id="service-label" sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-                        اختر الخدمة
-                    </InputLabel>
+            {/* Search Inputs in Row Layout */}
+            <Stack
+                direction="row"
+                spacing={2}
+                sx={{ flexWrap: "wrap", justifyContent: "center" }}
+            >
+                {/* Service Selection */}
+                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                    <InputLabel id="service-label">اختر الخدمة</InputLabel>
                     <Select
                         labelId="service-label"
                         value={service}
                         onChange={(e) => setService(e.target.value)}
-                        label="اختر الخدمة"
                         sx={{
                             fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
+                            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
+                            "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
                         }}
                     >
                         {services.map((serv, index) => (
-                            <MenuItem
-                                key={index}
-                                value={serv}
-                                sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
-                            >
+                            <MenuItem key={index} value={serv}>
                                 {serv}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
-                <FormControl fullWidth size="medium">
-                    <InputLabel id="area-label" sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-                        اختر المنطقة
-                    </InputLabel>
+                {/* Area Selection */}
+                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                    <InputLabel id="area-label">اختر المنطقة</InputLabel>
                     <Select
                         labelId="area-label"
                         value={area}
                         onChange={handleAreaChange}
-                        label="اختر المنطقة"
                         sx={{
                             fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
+                            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
+                            "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
                         }}
                     >
                         {areas.map((areaItem, index) => (
-                            <MenuItem
-                                key={index}
-                                value={areaItem}
-                                sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
-                            >
+                            <MenuItem key={index} value={areaItem}>
                                 {areaItem}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
-                <FormControl fullWidth size="medium">
-                    <InputLabel id="province-label" sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}>
-                        اختر المحافظة
-                    </InputLabel>
+                {/* Province Selection */}
+                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                    <InputLabel id="province-label">اختر المحافظة</InputLabel>
                     <Select
                         labelId="province-label"
                         value={province}
                         onChange={(e) => setProvince(e.target.value)}
-                        label="اختر المحافظة"
                         sx={{
                             fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
-                            '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#006C35',
-                            },
+                            "& .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
+                            "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
                         }}
                     >
                         {availableProvinces.map((prov, index) => (
-                            <MenuItem
-                                key={index}
-                                value={prov}
-                                sx={{ fontFamily: "'Noto Sans Arabic', sans-serif" }}
-                            >
+                            <MenuItem key={index} value={prov}>
                                 {prov}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
+                {/* Search Button */}
                 <Button
                     variant="contained"
                     onClick={handleSearch}
                     startIcon={<SearchIcon />}
                     sx={{
-                        backgroundColor: '#006C35',
-                        color: 'white',
+                        backgroundColor: "#006C35",
+                        color: "white",
                         fontFamily: "'Noto Sans Arabic', sans-serif",
                         py: 1.5,
-                        fontSize: '1.1rem',
-                        fontWeight: 'bold',
-                        '&:hover': {
-                            backgroundColor: '#004d00',
-                        },
+                        fontSize: "1rem",
+                        fontWeight: "bold",
+                        whiteSpace: "nowrap",
+                        "&:hover": { backgroundColor: "#004d00" },
                     }}
                 >
                     بحث عن الخدمة
                 </Button>
             </Stack>
-        </Paper>
+        </>
+
     );
 };
 
