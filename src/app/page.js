@@ -33,6 +33,9 @@ import {
   Close as CloseIcon,
 } from '@mui/icons-material';
 import ServiceSearchSection from '@/components/HomePage/ServiceSearchSection';
+import HomePageAboutUs from '@/components/HomePage/HomePageAboutUs';
+import ServiceSection from '@/components/HomePage/ServiceSection';
+import Link from 'next/link';
 
 const theme = createTheme({
   direction: 'rtl',
@@ -70,14 +73,25 @@ export default function HomePage() {
   // Drawer content for mobile navigation
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', p: 2 }}>
-      <Typography variant="h6" sx={{ my: 2, color: 'primary.main', fontWeight: 'bold' }}>
-        المملكه
+      <Typography
+        variant="h3"
+        align="center"
+        sx={{
+          fontFamily: "'Noto Kufi Arabic', sans-serif",
+          fontWeight: "bold",
+          color: "#006C35",
+          letterSpacing: "2px",
+          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+        }}
+      >
+        المملكة
       </Typography>
+
       <Stack spacing={2}>
         <Button color="inherit">الرئيسية</Button>
         <Button color="inherit">خدماتنا</Button>
         <Button color="inherit">المقالات</Button>
-        <Button color="inherit">من نحن</Button>
+        <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
         <Button color="inherit">اتصل بنا</Button>
         <Button variant="contained" color="primary">
           تعرف علينا
@@ -135,18 +149,26 @@ export default function HomePage() {
           </Container>
         </Box>
 
-
         {/* Navigation Bar */}
         <AppBar position="static" color="default" elevation={1}>
           <Container>
             <Toolbar disableGutters>
               <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, color: 'primary.main', fontWeight: 'bold' }}
+                variant="h3"
+                // align="center"
+                sx={{
+                  fontFamily: "'Noto Kufi Arabic', sans-serif",
+                  fontWeight: "bold",
+                  color: "#006C35",
+                  letterSpacing: "2px",
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
+                  flexGrow: 1,
+                }}
               >
-المملكه             
- </Typography>
+                المملكة
+              </Typography>
+
+              
               {isMobile ? (
                 <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
                   <MenuIcon />
@@ -155,8 +177,12 @@ export default function HomePage() {
                 <Stack direction="row" spacing={2}>
                   <Button color="inherit">الرئيسية</Button>
                   <Button color="inherit">خدماتنا</Button>
-                  <Button color="inherit">المقالات</Button>
-                  <Button color="inherit">من نحن</Button>
+                  
+                  <Link href={'/articles'}>
+                    <Button color="inherit">المقالات</Button>
+                  </Link>
+
+                  <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
                   <Button color="inherit">اتصل بنا</Button>
                   <Button variant="contained" color="primary" onClick={handleOpenModal}>
                     تعرف علينا
@@ -199,6 +225,7 @@ export default function HomePage() {
                 <Typography variant="h5" component="h2" color="text.secondary" mb={4}>
                   نقدم أفضل الحلول لعملائنا
                 </Typography>
+                <HomePageAboutUs />
                 <Button
                   variant="contained"
                   color="primary"
@@ -211,7 +238,7 @@ export default function HomePage() {
             </Grid>
           </Grid>
         </Container>
-
+        <ServiceSection />
         {/* Company Info Modal */}
         <Dialog open={openModal} onClose={handleCloseModal} maxWidth="md" fullWidth>
           <DialogTitle>
