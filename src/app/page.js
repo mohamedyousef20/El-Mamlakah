@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from 'react';
 import {
   AppBar,
@@ -18,7 +19,6 @@ import {
   createTheme,
   CssBaseline,
   DialogContentText,
-  Drawer,
   Grid,
   useMediaQuery,
 } from '@mui/material';
@@ -29,7 +29,6 @@ import {
   LinkedIn,
   Phone,
   Email,
-  Menu as MenuIcon,
   Close as CloseIcon,
 } from '@mui/icons-material';
 import ServiceSearchSection from '@/components/HomePage/ServiceSearchSection';
@@ -37,6 +36,8 @@ import HomePageAboutUs from '@/components/HomePage/HomePageAboutUs';
 import ServiceSection from '@/components/HomePage/ServiceSection';
 import Link from 'next/link';
 import MainContent from '@/components/HomePage/MainContent';
+import NavBar from '@/components/Utils/NavBar';
+import AnimatedLogo from '@/components/Utils/AnimatedLogo';
 
 const theme = createTheme({
   direction: 'rtl',
@@ -54,192 +55,137 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: 'Tajawal, sans-serif',
+    // Responsive font sizes
+    h3: {
+      fontSize: '2.5rem',
+      '@media (max-width:600px)': {
+        fontSize: '1.75rem',
+      },
+    },
+    h5: {
+      fontSize: '1.5rem',
+      '@media (max-width:600px)': {
+        fontSize: '1.25rem',
+      },
+    },
+    body2: {
+      fontSize: '0.875rem',
+      '@media (max-width:600px)': {
+        fontSize: '0.75rem',
+      },
+    },
+    button: {
+      '@media (max-width:600px)': {
+        fontSize: '0.8rem',
+      },
+    },
   },
 });
 
 export default function HomePage() {
+
   const [openModal, setOpenModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   const themeMUI = useTheme();
   const isMobile = useMediaQuery(themeMUI.breakpoints.down('md'));
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
   const handleCloseVideoModal = () => setOpenVideoModal(false);
-  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
-  // Drawer content for mobile navigation
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', p: 2 }}>
-      <Typography
-        variant="h3"
-        align="center"
-        sx={{
-          fontFamily: "'Noto Kufi Arabic', sans-serif",
-          fontWeight: "bold",
-          color: "#006C35",
-          letterSpacing: "2px",
-          textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-        }}
-      >
-        المملكة
-      </Typography>
-
-      <Stack spacing={2}>
-        <Button color="inherit">الرئيسية</Button>
-        <Button color="inherit">خدماتنا</Button>
-
-        <Link href={'/articles'}>
-          <Button color="inherit">المقالات</Button>
-        </Link>
-
-        <Link href={'/policy'}>
-          <Button color="inherit">سياسة الخصوصية</Button>
-        </Link>
-        <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
-        <Button color="inherit">اتصل بنا</Button>
-        <Button variant="contained" color="primary">
-          تعرف علينا
-        </Button>
-      </Stack>
-    </Box>
-  );
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box dir="rtl">
-        {/* Top Bar */}
-        <Box bgcolor="background.paper" py={1}>
-          <Container>
+        {/* Logo Section */}
+        <Box bgcolor="background.paper" py={isMobile ? 2 : 3} textAlign="center">
+          <Container maxWidth="lg">
+            <AnimatedLogo />
+          </Container>
+        </Box>
+
+        {/* Contact and Social Media Section */}
+        <Box bgcolor="background.default" py={isMobile ? 1 : 2}>
+          <Container maxWidth="lg">
             <Stack
-              direction={{ xs: 'column', sm: 'row' }}
+              direction={isMobile ? "column" : "row"}
               justifyContent="space-between"
               alignItems="center"
-              spacing={{ xs: 1, sm: 0 }}
+              spacing={isMobile ? 1 : 2}
             >
               {/* Contact Information */}
               <Stack
-                direction="row"
-                spacing={2}
-                mb={{ xs: 2, sm: 0 }}  // margin bottom on mobile
+                direction={isMobile ? "column" : "row"}
+                spacing={isMobile ? 1 : 2}
                 alignItems="center"
-                justifyContent="center"  // centers the content horizontally
               >
                 <Typography
                   variant="body2"
                   display="flex"
                   alignItems="center"
-                  sx={{ color: '#006C35', cursor: 'pointer' }}  // phone text color and pointer cursor
+                  sx={{ color: '#006C35' }}
                 >
-                  <Phone sx={{ mr: 1 }} fontSize="small" />
+                  <Phone sx={{ mr: 0.5, fontSize: isMobile ? '0.8rem' : '1rem' }} />
                   +966 123 456 789
                 </Typography>
                 <Typography
                   variant="body2"
                   display="flex"
                   alignItems="center"
-                  sx={{ color: '#333333', cursor: 'pointer' }}  // email text color and pointer cursor
+                  sx={{ color: '#333333' }}
                 >
-                  <Email sx={{ mr: 1 }} fontSize="small" />
+                  <Email sx={{ mr: 0.5, fontSize: isMobile ? '0.8rem' : '1rem' }} />
                   info@company.com
                 </Typography>
               </Stack>
 
               {/* Social Media Icons */}
-              <Stack direction="row" spacing={1}>
-                <IconButton color="primary" size="small">
-                  <Facebook />
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{ mt: isMobile ? 1 : 0 }}
+              >
+                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
+                  <Facebook fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
-                <IconButton color="primary" size="small">
-                  <Twitter />
+                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
+                  <Twitter fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
-                <IconButton color="primary" size="small">
-                  <Instagram />
+                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
+                  <Instagram fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
-                <IconButton color="primary" size="small">
-                  <LinkedIn />
+                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
+                  <LinkedIn fontSize={isMobile ? "small" : "medium"} />
                 </IconButton>
               </Stack>
             </Stack>
           </Container>
         </Box>
 
-        {/* Navigation Bar */}
-        <AppBar position="static" color="default" elevation={1}>
-          <Container>
-            <Toolbar disableGutters>
-              <Typography
-                variant="h3"
-                // align="center"
-                sx={{
-                  fontFamily: "'Noto Kufi Arabic', sans-serif",
-                  fontWeight: "bold",
-                  color: "#006C35",
-                  letterSpacing: "2px",
-                  textShadow: "2px 2px 4px rgba(0,0,0,0.1)",
-                  flexGrow: 1,
-                }}
-              >
-                المملكة
-              </Typography>
+        <NavBar />
 
 
-              {isMobile ? (
-                <IconButton color="inherit" edge="end" onClick={handleDrawerToggle}>
-                  <MenuIcon />
-                </IconButton>
-              ) : (
-                <Stack direction="row" spacing={2}>
-                  <Button color="inherit">الرئيسية</Button>
-                  <Button color="inherit">خدماتنا</Button>
-
-                  <Link href={'/articles'}>
-                    <Button color="inherit">المقالات</Button>
-                  </Link>
-
-                    <Link href={'/policy'}>
-                      <Button color="inherit">سياسة الخصوصية</Button>
-                    </Link>
-                  <Button color="inherit" onClick={handleOpenModal}>من نحن</Button>
-                  <Button color="inherit">اتصل بنا</Button>
-                  <Button variant="contained" color="primary" onClick={handleOpenModal}>
-                    تعرف علينا
-                  </Button>
-                </Stack>
-              )}
-            </Toolbar>
-
-          </Container>
-
-        </AppBar>
-        <ServiceSearchSection />
-
-        {/* Mobile Drawer */}
-        <Drawer
-          anchor="right"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
-          }}
-        >
-          {drawer}
-        </Drawer>
-
-        {/* Main Content with Aside */}
+        {/* Main Content */}
         <Container sx={{ my: 4 }}>
           <Grid container spacing={4}>
-
             <MainContent />
           </Grid>
         </Container>
+
         <ServiceSection />
-        {/* Company Info Modal */}
-        <Dialog open={openModal} onClose={handleCloseModal} maxWidth="md" fullWidth>
+
+        {/* Modals */}
+        <Dialog
+          open={openModal}
+          onClose={handleCloseModal}
+          maxWidth="md"
+          fullWidth
+          sx={{
+            '& .MuiDialog-paper': {
+              m: isMobile ? 2 : 4
+            }
+          }}
+        >
           <DialogTitle>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               من نحن
@@ -263,8 +209,17 @@ export default function HomePage() {
           </DialogActions>
         </Dialog>
 
-        {/* Video Modal */}
-        <Dialog open={openVideoModal} onClose={handleCloseVideoModal} maxWidth="md" fullWidth>
+        <Dialog
+          open={openVideoModal}
+          onClose={handleCloseVideoModal}
+          maxWidth="md"
+          fullWidth
+          sx={{
+            '& .MuiDialog-paper': {
+              m: isMobile ? 2 : 4
+            }
+          }}
+        >
           <DialogTitle>
             <Box display="flex" justifyContent="space-between" alignItems="center">
               الفيديو التعريفي

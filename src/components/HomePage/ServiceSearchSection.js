@@ -58,10 +58,10 @@ const ServiceSearchSection = () => {
             {/* Search Inputs in Row Layout */}
             <Stack
                 direction="row"
-                alignItems={'center'}
-                spacing={2}
+                alignItems="center"
+                spacing={2} // Adds space between items
                 mt={4}
-                sx={{ flexWrap: "wrap", justifyContent: "center" }}
+                sx={{ flexWrap: "wrap", justifyContent: "center", gap: 3 }} // Extra spacing
             >
                 <Typography
                     variant="h5"
@@ -76,9 +76,8 @@ const ServiceSearchSection = () => {
                     ابحث عن خدمة
                 </Typography>
 
-
                 {/* Service Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
                     <InputLabel id="service-label">اختر الخدمة</InputLabel>
                     <Select
                         labelId="service-label"
@@ -99,7 +98,7 @@ const ServiceSearchSection = () => {
                 </FormControl>
 
                 {/* Area Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
                     <InputLabel id="area-label">اختر المنطقة</InputLabel>
                     <Select
                         labelId="area-label"
@@ -120,7 +119,7 @@ const ServiceSearchSection = () => {
                 </FormControl>
 
                 {/* Province Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250 }}>
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
                     <InputLabel id="province-label">اختر المحافظة</InputLabel>
                     <Select
                         labelId="province-label"
@@ -154,11 +153,13 @@ const ServiceSearchSection = () => {
                         fontWeight: "bold",
                         whiteSpace: "nowrap",
                         "&:hover": { backgroundColor: "#004d00" },
+                        m: 1, // Added margin
                     }}
                 >
                     بحث عن الخدمة
                 </Button>
             </Stack>
+
         </>
 
     );
