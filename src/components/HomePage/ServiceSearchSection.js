@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Typography,
     Button,
@@ -7,13 +7,15 @@ import {
     Select,
     FormControl,
     InputLabel,
-    Grid,
-    Paper,
     Stack,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
+import { useRouter } from "next/navigation"; // Import the router
 
 const ServiceSearchSection = () => {
+    const router = useRouter(); // Initialize the router
+
+    // Define regions and their provinces
     const regions = {
         "منطقة الرياض": ["الرياض", "الخرج", "الدوادمي", "الزلفي", "المجمعة"],
         "منطقة مكة": ["مكة المكرمة", "جدة", "الطائف", "القنفذة"],
@@ -30,14 +32,38 @@ const ServiceSearchSection = () => {
         "منطقة القصيم": ["بريدة", "عنيزة", "الزبيدة", "القناطر"],
     };
 
+    // State for selected filters
     const [service, setService] = useState("");
     const [area, setArea] = useState("");
     const [province, setProvince] = useState("");
     const [availableProvinces, setAvailableProvinces] = useState([]);
+    const [availableService, setAvailableService] = useState([]); // Define availableService state
 
-    const services = ["تنظيف", "سباكة", "كهرباء", "نقل أثاث"];
+    // Define available areas
     const areas = Object.keys(regions);
 
+    // Fetch services on component mount
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                const res = await fetch("http://localhost:5500/api/v1/service");
+                if (!res.ok) {
+                    throw new Error("فشل في تحميل الفئات.");
+                }
+                const data = await res.json();
+                setAvailableService(data.data); // Set the fetched services
+            } catch (error) {
+                console.error("Error fetching services:", error);
+                // Optionally, show a notification to the user
+                alert("حدث خطأ أثناء تحميل الفئات!");
+                setAvailableService([]); // Fallback to an empty array
+            }
+        };
+
+        fetchServices(); // Call the fetch function
+    }, []); // Empty dependency array ensures this runs only once on mount
+
+    // Handle area selection
     const handleAreaChange = (e) => {
         const selectedArea = e.target.value;
         setArea(selectedArea);
@@ -45,23 +71,30 @@ const ServiceSearchSection = () => {
         setAvailableProvinces(regions[selectedArea] || []);
     };
 
+    // Handle search button click
     const handleSearch = () => {
-        console.log("Selected Service:", service);
-        console.log("Selected Area:", area);
-        console.log("Selected Province:", province);
+        // Construct the query string with filters
+        let query = `/articles?service=${encodeURIComponent(service)}`;
+        if (area) {
+            query += `&area=${encodeURIComponent(area)}`;
+            if (province) {
+                query += `&province=${encodeURIComponent(province)}`;
+            }
+        }
+
+        // Redirect to the articles page with the query parameters
+        router.push(query);
     };
 
     return (
-      <>
-            
-         
+        <>
             {/* Search Inputs in Row Layout */}
             <Stack
                 direction="row"
                 alignItems="center"
-                spacing={2} // Adds space between items
+                spacing={2}
                 mt={4}
-                sx={{ flexWrap: "wrap", justifyContent: "center", gap: 3 }} // Extra spacing
+                sx={{ flexWrap: "wrap", justifyContent: "center", gap: 3 }}
             >
                 <Typography
                     variant="h5"
@@ -77,7 +110,7 @@ const ServiceSearchSection = () => {
                 </Typography>
 
                 {/* Service Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}>
                     <InputLabel id="service-label">اختر الخدمة</InputLabel>
                     <Select
                         labelId="service-label"
@@ -89,16 +122,16 @@ const ServiceSearchSection = () => {
                             "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#006C35" },
                         }}
                     >
-                        {services.map((serv, index) => (
-                            <MenuItem key={index} value={serv}>
-                                {serv}
+                        {availableService.map((serv, index) => (
+                            <MenuItem key={index} value={serv._id}>
+                                {serv.name}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
 
                 {/* Area Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}>
                     <InputLabel id="area-label">اختر المنطقة</InputLabel>
                     <Select
                         labelId="area-label"
@@ -119,7 +152,7 @@ const ServiceSearchSection = () => {
                 </FormControl>
 
                 {/* Province Selection */}
-                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}> {/* Added margin */}
+                <FormControl fullWidth sx={{ maxWidth: 250, m: 1 }}>
                     <InputLabel id="province-label">اختر المحافظة</InputLabel>
                     <Select
                         labelId="province-label"
@@ -153,15 +186,13 @@ const ServiceSearchSection = () => {
                         fontWeight: "bold",
                         whiteSpace: "nowrap",
                         "&:hover": { backgroundColor: "#004d00" },
-                        m: 1, // Added margin
+                        m: 1,
                     }}
                 >
                     بحث عن الخدمة
                 </Button>
             </Stack>
-
         </>
-
     );
 };
 

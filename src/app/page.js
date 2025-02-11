@@ -93,6 +93,7 @@ export default function HomePage() {
   const handleCloseModal = () => setOpenModal(false);
   const handleCloseVideoModal = () => setOpenVideoModal(false);
 
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

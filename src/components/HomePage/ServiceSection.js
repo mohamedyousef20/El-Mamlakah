@@ -1,3 +1,5 @@
+// ServiceSection.server.jsx (Server Component)
+// Do not include "use client" here.
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -5,44 +7,29 @@ import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 
-const ServiceSection = () => {
-    const items = [
-        {
-            image: 'https://source.unsplash.com/random/150x150?construction',
-            header: 'خدمات مقاولات عامة',
-            text: 'تقدم مؤسسة النخبة شركات مقاولات بجميع انحاء المملكة العربية السعودية مع المحافظة علي أن تمتلك كل شركة من شركات المقاولات مهندسين متخصصين في المقام الاول.',
-        },
-        {
-            image: 'https://source.unsplash.com/random/150x150?architecture',
-            header: 'تصميمات معمارية',
-            text: 'نقوم بتصميم أحدث وأفضل التصميمات المعمارية بجودة عالية ودقة متناهية، لضمان إرضاء جميع عملائنا.',
-        },
-        {
-            image: 'https://source.unsplash.com/random/150x150?engineering',
-            header: 'الإشراف الهندسي',
-            text: 'نضمن لك أفضل الإشراف الهندسي من خلال فريق من المتخصصين لضمان تنفيذ المشاريع بجودة عالية.',
-        },
-        {
-            image: 'https://source.unsplash.com/random/150x150?interior',
-            header: 'التشطيبات والديكور',
-            text: 'نقدم لك أفضل خدمات التشطيبات والديكور العصري بأفضل المواد وبأعلى معايير الجودة.',
-        },
-        {
-            image: 'https://source.unsplash.com/random/150x150?renovation',
-            header: 'التجديدات والصيانة',
-            text: 'نقدم خدمات تجديد المباني وصيانتها لضمان أطول فترة استخدام بجودة ممتازة.',
-        },
-        {
-            image: 'https://source.unsplash.com/random/150x150?planning',
-            header: 'إدارة المشاريع',
-            text: 'نوفر لك خطط إدارة مشاريع متكاملة لضمان نجاح وتنفيذ المشاريع بكفاءة.',
-        },
-    ];
+// Fetch data on the server
+const fetchServices = async () => {
+    try {
+        const res = await fetch("http://localhost:5500/api/v1/service");
+        if (!res.ok) {
+            throw new Error("فشل في تحميل الفئات.");
+        }
+        const data = await res.json();
+        return data.data; // Return the fetched services
+    } catch (error) {
+        console.error("Error fetching services:", error);
+        return []; // Fallback to an empty array
+    }
+};
+
+export default async function ServiceSection() {
+    // Fetch services on the server
+    const services = await fetchServices();
 
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Grid container spacing={4} justifyContent="center">
-                {items.map((item, index) => (
+                {services.map((service, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Paper
                             elevation={3}
@@ -59,8 +46,8 @@ const ServiceSection = () => {
                         >
                             {/* Avatar positioned half out of the card */}
                             <Avatar
-                                alt={item.header}
-                                src={item.image}
+                                alt={service.name}
+                                src={service.image}
                                 sx={{
                                     width: 100,
                                     height: 100,
@@ -80,7 +67,7 @@ const ServiceSection = () => {
                                     fontFamily: 'Tajawal, Arial, sans-serif', // Arabic-friendly font
                                 }}
                             >
-                                {item.header}
+                                {service.name}
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -89,7 +76,7 @@ const ServiceSection = () => {
                                     fontFamily: 'Tajawal, Arial, sans-serif', // Arabic-friendly font
                                 }}
                             >
-                                {item.text}
+                                {service.desc}
                             </Typography>
                         </Paper>
                     </Grid>
@@ -97,6 +84,4 @@ const ServiceSection = () => {
             </Grid>
         </Container>
     );
-};
-
-export default ServiceSection;
+}
