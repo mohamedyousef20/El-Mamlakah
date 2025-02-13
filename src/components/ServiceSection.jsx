@@ -1,31 +1,8 @@
-// ServiceSection.server.jsx (Server Component)
-// Do not include "use client" here.
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
+import { Avatar, Container, Grid, Paper, Typography } from '@mui/material';
+import React from 'react'
 
-// Fetch data on the server
-const fetchServices = async () => {
-    try {
-        const res = await fetch("http://localhost:5500/api/v1/service");
-        if (!res.ok) {
-            throw new Error("فشل في تحميل الفئات.");
-        }
-        const data = await res.json();
-        return data.data; // Return the fetched services
-    } catch (error) {
-        console.error("Error fetching services:", error);
-        return []; // Fallback to an empty array
-    }
-};
-
-export default async function ServiceSection() {
-    // Fetch services on the server
-    const services = await fetchServices();
-
+const ServiceSection =  ({services}) => {
+   
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Grid container spacing={4} justifyContent="center">
@@ -64,7 +41,7 @@ export default async function ServiceSection() {
                                 sx={{
                                     mt: 4,
                                     fontWeight: 'bold',
-                                    fontFamily: 'Tajawal, Arial, sans-serif', // Arabic-friendly font
+                                    fontFamily: "'Noto Kufi Arabic', sans-serif",
                                 }}
                             >
                                 {service.name}
@@ -73,7 +50,7 @@ export default async function ServiceSection() {
                                 variant="body1"
                                 color="text.secondary"
                                 sx={{
-                                    fontFamily: 'Tajawal, Arial, sans-serif', // Arabic-friendly font
+                                    fontFamily: "'Noto Kufi Arabic', sans-serif",
                                 }}
                             >
                                 {service.desc}
@@ -83,5 +60,7 @@ export default async function ServiceSection() {
                 ))}
             </Grid>
         </Container>
-    );
+    )
 }
+
+export default ServiceSection

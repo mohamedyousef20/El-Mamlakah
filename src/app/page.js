@@ -1,43 +1,22 @@
-"use client";
-
-import React, { useState } from 'react';
+// app/page.jsx (or your server component file)
+import React from 'react';
 import {
-  AppBar,
-  Box,
-  Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Stack,
-  Toolbar,
   Typography,
-  useTheme,
-  ThemeProvider,
-  createTheme,
-  CssBaseline,
-  DialogContentText,
+  Box,
   Grid,
-  useMediaQuery,
+  Stack,
+  Paper,
+  createTheme,
+  IconButton
 } from '@mui/material';
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  LinkedIn,
-  Phone,
-  Email,
-  Close as CloseIcon,
-} from '@mui/icons-material';
-import ServiceSearchSection from '@/components/HomePage/ServiceSearchSection';
-import HomePageAboutUs from '@/components/HomePage/HomePageAboutUs';
-import ServiceSection from '@/components/HomePage/ServiceSection';
 import Link from 'next/link';
-import MainContent from '@/components/HomePage/MainContent';
-import NavBar from '@/components/Utils/NavBar';
-import AnimatedLogo from '@/components/Utils/AnimatedLogo';
+import ServiceSection from '@/components/ServiceSection';
+import { Email, Facebook, Instagram, LinkedIn, PhoneAndroid, Twitter } from '@mui/icons-material';
+import { Phone } from 'lucide-react';
+import MainContent from '@/components/MainContent';
+import YouTubeVideo from '@/components/VideoSection';
+
 
 const theme = createTheme({
   direction: 'rtl',
@@ -82,169 +61,90 @@ const theme = createTheme({
   },
 });
 
-export default function HomePage() {
-
-  const [openModal, setOpenModal] = useState(false);
-  const [openVideoModal, setOpenVideoModal] = useState(false);
-  const themeMUI = useTheme();
-  const isMobile = useMediaQuery(themeMUI.breakpoints.down('md'));
-
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
-  const handleCloseVideoModal = () => setOpenVideoModal(false);
-
+const page = async () => {
+  const res = await fetch("http://localhost:5500/api/v1/service");
+  const data = await res.json();
+  const services = data.data;
+  console.log(services)
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box dir="rtl">
-        {/* Logo Section */}
-        <Box bgcolor="background.paper" py={isMobile ? 2 : 3} textAlign="center">
-          <Container maxWidth="lg">
-            <AnimatedLogo />
-          </Container>
-        </Box>
-
-        {/* Contact and Social Media Section */}
-        <Box bgcolor="background.default" py={isMobile ? 1 : 2}>
-          <Container maxWidth="lg">
-            <Stack
-              direction={isMobile ? "column" : "row"}
-              justifyContent="space-between"
-              alignItems="center"
-              spacing={isMobile ? 1 : 2}
-            >
-              {/* Contact Information */}
-              <Stack
-                direction={isMobile ? "column" : "row"}
-                spacing={isMobile ? 1 : 2}
-                alignItems="center"
-              >
-                <Typography
-                  variant="body2"
-                  display="flex"
-                  alignItems="center"
-                  sx={{ color: '#006C35' }}
-                >
-                  <Phone sx={{ mr: 0.5, fontSize: isMobile ? '0.8rem' : '1rem' }} />
-                  +966 123 456 789
-                </Typography>
-                <Typography
-                  variant="body2"
-                  display="flex"
-                  alignItems="center"
-                  sx={{ color: '#333333' }}
-                >
-                  <Email sx={{ mr: 0.5, fontSize: isMobile ? '0.8rem' : '1rem' }} />
-                  info@company.com
-                </Typography>
-              </Stack>
-
-              {/* Social Media Icons */}
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{ mt: isMobile ? 1 : 0 }}
-              >
-                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
-                  <Facebook fontSize={isMobile ? "small" : "medium"} />
-                </IconButton>
-                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
-                  <Twitter fontSize={isMobile ? "small" : "medium"} />
-                </IconButton>
-                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
-                  <Instagram fontSize={isMobile ? "small" : "medium"} />
-                </IconButton>
-                <IconButton color="primary" size={isMobile ? "small" : "medium"}>
-                  <LinkedIn fontSize={isMobile ? "small" : "medium"} />
-                </IconButton>
-              </Stack>
-            </Stack>
-          </Container>
-        </Box>
-
-        <NavBar />
-
-
-        {/* Main Content */}
-        <Container sx={{ my: 4 }}>
-          <Grid container spacing={4}>
-            <MainContent />
-          </Grid>
+    <Box >
+      {/* Logo Section */}
+      {/* <Box bgcolor="background.paper" py={{ xs: 2, md: 3 }} textAlign="center">
+        <Container maxWidth="lg">
+          <Logo />
         </Container>
+      </Box> */}
 
-        <ServiceSection />
+      {/* Contact and Social Media Section */}
+      <Box bgcolor="background.default" py={{ xs: 1, md: 2 }}>
+        <Container maxWidth="lg">
+          <Stack
+            direction={{ xs: "column", md: "row" }}
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={{ xs: 1, md: 2 }}
+          >
+            {/* Contact Information */}
+            <Stack
+              direction={{ xs: "row", md: "row" }}
+              spacing={{ xs: 1, md: 2 }}
+              gap={2}
+              alignItems="center"
+            >
+              <Typography
+                variant="body2"
+                display="flex"
+                alignItems="center"
+                sx={{ color: '#006C35', fontFamily: "'Tajawal', sans-serif",fontSize:".75rem" }}
+              >
+                {/* Replace the following with an icon if needed */}
+                <PhoneAndroid />+966 123 456 789
+              </Typography>
+              <Typography
+                variant="body2"
+                display="flex"
+                alignItems="center"
+                sx={{ color: '#111827', fontFamily: "'Tajawal', sans-serif",fontSize:".75rem" }}
+              >
+                info@company.com<Email />
+              </Typography>
+            </Stack>
 
-        {/* Modals */}
-        <Dialog
-          open={openModal}
-          onClose={handleCloseModal}
-          maxWidth="md"
-          fullWidth
-          sx={{
-            '& .MuiDialog-paper': {
-              m: isMobile ? 2 : 4
-            }
-          }}
-        >
-          <DialogTitle>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              من نحن
-              <IconButton onClick={handleCloseModal}>
-                <CloseIcon />
+            {/* Social Media Icons */}
+            <Stack direction="row" spacing={1} sx={{ mt: { xs: 1, md: 2 } }}>
+              <IconButton color="primary" size="small" sx={{ color:"#006c35"}}>
+                <Facebook fontSize="small" />
               </IconButton>
-            </Box>
-          </DialogTitle>
-          <DialogContent>
-            <Typography paragraph>
-              نحن شركة رائدة في مجال [مجال الشركة] منذ عام [سنة التأسيس]. نسعى دائماً لتقديم أفضل الخدمات لعملائنا مع الحفاظ على أعلى معايير الجودة.
-            </Typography>
-            <Typography paragraph>
-              رؤيتنا هي [الرؤية] ورسالتنا هي [الرسالة]. نحن نؤمن بـ [القيم].
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseModal} color="primary">
-              إغلاق
-            </Button>
-          </DialogActions>
-        </Dialog>
-
-        <Dialog
-          open={openVideoModal}
-          onClose={handleCloseVideoModal}
-          maxWidth="md"
-          fullWidth
-          sx={{
-            '& .MuiDialog-paper': {
-              m: isMobile ? 2 : 4
-            }
-          }}
-        >
-          <DialogTitle>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              الفيديو التعريفي
-              <IconButton onClick={handleCloseVideoModal}>
-                <CloseIcon />
+              <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                <Twitter fontSize="small" />
               </IconButton>
-            </Box>
-          </DialogTitle>
-          <DialogContent>
-            <Box display="flex" justifyContent="center" py={2}>
-              <img
-                src="/api/placeholder/640/360"
-                alt="فيديو تعريفي"
-                style={{ maxWidth: '100%', height: 'auto' }}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseVideoModal} color="primary">
-              إغلاق
-            </Button>
-          </DialogActions>
-        </Dialog>
+              <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                <Instagram fontSize="small" />
+              </IconButton>
+            </Stack>
+          </Stack>
+        </Container>
       </Box>
-    </ThemeProvider>
-  );
+
+      {/* Main Content (Placeholder) */}
+      <Container sx={{ my: 4 }}>
+        <Grid container spacing={4}>
+
+          <MainContent />
+        </Grid>
+      </Container>
+
+<YouTubeVideo/>
+      {/* Service Section */}
+      <ServiceSection services={services} />
+
+      {/* Modals would normally be interactive. As a server component, they render in their closed state. */}
+      <Box sx={{ display: 'none' }}>
+        {/* For example, if you had a modal component, you would render it here as closed or handled by a client component */}
+      </Box>
+    </Box>
+  )
 }
+
+export default page

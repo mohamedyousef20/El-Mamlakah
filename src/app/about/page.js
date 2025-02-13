@@ -1,254 +1,123 @@
+import React from "react";
+import { Box, Container, Typography } from "@mui/material";
 
-"use client";
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Menu, MenuItem, Box } from '@mui/material';
-import Link from 'next/link';
-
-const Navbar = () => {
-    // State for the "خدمات المؤسسة" dropdown menu
-    const [servicesAnchorEl, setServicesAnchorEl] = useState(null);
-    const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
-    const [subSubMenuAnchorEl, setSubSubMenuAnchorEl] = useState(null);
-
-    // Open the "خدمات المؤسسة" dropdown menu
-    const handleServicesMenuOpen = (event) => {
-        setServicesAnchorEl(event.currentTarget);
-    };
-
-    // Close the "خدمات المؤسسة" dropdown menu
-    const handleServicesMenuClose = () => {
-        setServicesAnchorEl(null);
-        setSubMenuAnchorEl(null);
-        setSubSubMenuAnchorEl(null);
-    };
-
-    // Open the nested submenu
-    const handleSubMenuOpen = (event) => {
-        setSubMenuAnchorEl(event.currentTarget);
-    };
-
-    // Close the nested submenu
-    const handleSubMenuClose = () => {
-        setSubMenuAnchorEl(null);
-    };
-
-    // Open the nested sub-submenu
-    const handleSubSubMenuOpen = (event) => {
-        setSubSubMenuAnchorEl(event.currentTarget);
-    };
-
-    // Close the nested sub-submenu
-    const handleSubSubMenuClose = () => {
-        setSubSubMenuAnchorEl(null);
-    };
+export default function AboutPage() {
+    // Define your slides with image paths and text content
+    const slides = [
+        {
+            image: "https://unsplash.com/photos/man-standing-beside-window-el0VzdWE6PE", // update image path if needed
+            title: "مرحبا بكم في موقعنا",
+            subtitle: "اكتشف أفضل الشركات والخدمات في المملكة",
+        },
+        {
+            image: "https://unsplash.com/photos/a-couple-of-men-standing-next-to-each-other-on-a-floor-czcyP4hJ-MI",
+            title: "حلول مبتكرة",
+            subtitle: "نوفر لك أحدث التقنيات للعثور على شركاء النجاح",
+        },
+        {
+            image: "/images/slide3.jpg",
+            title: "جودة واحترافية",
+            subtitle: "معايير عالية تضمن لك خدمات استثنائية",
+        },
+    ];
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#006C35', direction: 'rtl' }}> {/* Primary Green */}
-            <Container>
-                <Toolbar sx={{ direction: 'rtl' }}>
-                    {/* Logo */}
-                    <Typography
-                        variant="h6"
-                        component="div"
+        <Box>
+            {/* Hero Slider Section */}
+            <Box
+                sx={{
+                    position: "relative",
+                    overflow: "hidden",
+                    height: { xs: "50vh", md: "70vh" },
+                }}
+            >
+                {slides.map((slide, index) => (
+                    <Box
+                        key={index}
                         sx={{
-                            flexGrow: 1,
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif", // Arabic font
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            backgroundImage: `url(${slide.image})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            opacity: 0,
+                            animation: `fade 15s infinite`,
+                            animationDelay: `${index * 5}s`,
+                            transition: "opacity 1s ease-in-out",
                         }}
                     >
-                        <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                            المؤسسة
-                        </Link>
-                    </Typography>
+                        {/* Overlay with gradient */}
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background:
+                                    "linear-gradient(45deg, rgba(0,108,53,0.6) 30%, rgba(17,24,39,0.6) 90%)",
+                            }}
+                        />
+                        <Container
+                            sx={{
+                                position: "relative",
+                                zIndex: 2,
+                                textAlign: "center",
+                                color: "#fff",
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                px: 2,
+                            }}
+                        >
+                            <Typography variant="h3" sx={{
+                                fontWeight: "bold",
+                                fontFamily: "'Noto Kufi Arabic', sans-serif",
+                            }}>
+                                {slide.title}
+                            </Typography>
+                            <Typography variant="h5"
+                                sx={{
+                                    mt: 2,
+                                    fontFamily: "'Noto Kufi Arabic', sans-serif",
 
-                    {/* Navigation Links */}
-                    <Button
-                        color="inherit"
-                        sx={{
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '&:hover': {
-                                backgroundColor: '#004d00', // Darker green on hover
-                            },
-                        }}
-                    >
-                        <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                            الرئيسية
-                        </Link>
-                    </Button>
 
-                    {/* خدمات المؤسسة Dropdown Menu */}
-                    <Button
-                        color="inherit"
-                        sx={{
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '&:hover': {
-                                backgroundColor: '#004d00', // Darker green on hover
-                            },
-                        }}
-                        onClick={handleServicesMenuOpen}
-                    >
-                        خدمات المؤسسة
-                    </Button>
-                    <Menu
-                        anchorEl={servicesAnchorEl}
-                        open={Boolean(servicesAnchorEl)}
-                        onClose={handleServicesMenuClose}
-                        sx={{ direction: 'rtl' }}
-                    >
-                        <MenuItem
-                            onMouseEnter={handleSubMenuOpen}
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة ١
-                        </MenuItem>
-                        <MenuItem
-                            onMouseEnter={handleSubMenuOpen}
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة ٢
-                        </MenuItem>
-                        <MenuItem
-                            onMouseEnter={handleSubMenuOpen}
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة ٣
-                        </MenuItem>
-                    </Menu>
+                                }}>
+                                {slide.subtitle}
+                            </Typography>
+                        </Container>
+                    </Box>
+                ))}
+            </Box>
 
-                    {/* Nested Submenu */}
-                    <Menu
-                        anchorEl={subMenuAnchorEl}
-                        open={Boolean(subMenuAnchorEl)}
-                        onClose={handleSubMenuClose}
-                        sx={{ direction: 'rtl', marginLeft: '16px' }} // Adjust margin for horizontal positioning
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                        <MenuItem
-                            onMouseEnter={handleSubSubMenuOpen}
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة الفرعية ١
-                        </MenuItem>
-                        <MenuItem
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة الفرعية ٢
-                        </MenuItem>
-                    </Menu>
-
-                    {/* Nested Sub-Submenu */}
-                    <Menu
-                        anchorEl={subSubMenuAnchorEl}
-                        open={Boolean(subSubMenuAnchorEl)}
-                        onClose={handleSubSubMenuClose}
-                        sx={{ direction: 'rtl', marginLeft: '16px' }} // Adjust margin for horizontal positioning
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                    >
-                        <MenuItem
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة الفرعية الفرعية ١
-                        </MenuItem>
-                        <MenuItem
-                            sx={{
-                                fontFamily: "'Noto Sans Arabic', sans-serif",
-                                color: '#333333', // Dark Gray
-                                '&:hover': {
-                                    backgroundColor: '#F4F4F4', // Light Gray on hover
-                                },
-                            }}
-                        >
-                            الخدمة الفرعية الفرعية ٢
-                        </MenuItem>
-                    </Menu>
-
-                    {/* Other Navigation Links */}
-                    <Button
-                        color="inherit"
-                        sx={{
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '&:hover': {
-                                backgroundColor: '#004d00', // Darker green on hover
-                            },
-                        }}
-                    >
-                        <Link href="/articles" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                            المقالات
-                        </Link>
-                    </Button>
-                    <Button
-                        color="inherit"
-                        sx={{
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '&:hover': {
-                                backgroundColor: '#004d00', // Darker green on hover
-                            },
-                        }}
-                    >
-                        <Link href="/about" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                            عن المؤسسة
-                        </Link>
-                    </Button>
-                    <Button
-                        color="inherit"
-                        sx={{
-                            color: 'white',
-                            fontFamily: "'Noto Sans Arabic', sans-serif",
-                            '&:hover': {
-                                backgroundColor: '#004d00', // Darker green on hover
-                            },
-                        }}
-                    >
-                        <Link href="/contact" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                            إتصل بنا
-                        </Link>
-                    </Button>
-                </Toolbar>
+            {/* Content Section */}
+            <Container sx={{ py: 4 }}>
+                <Typography
+                    variant="h4"
+                    sx={{ color: "#111827", mb: 2, textAlign: "center" }}
+                >
+                    من نحن
+                </Typography>
+                <Typography
+                    variant="body1"
+                    sx={{
+                        color: "#111827",
+                        fontSize: "1.1rem",
+                        lineHeight: 1.8,
+                        textAlign: "justify",
+                    }}
+                >
+                    نحن شركة رائدة في مجال [مجال الشركة] منذ عام [سنة التأسيس]. نسعى دائماً لتقديم أفضل الخدمات
+                    لعملائنا مع الحفاظ على أعلى معايير الجودة. من خلال منصتنا المتطورة، نتيح لك الوصول السريع والموثوق إلى
+                    قائمة شاملة من الشركات المتخصصة في مجالات التنظيف، البناء، والصيانة وغيرها من القطاعات الحيوية.
+                    نحرص على توفير معلومات دقيقة تشمل تقييمات العملاء وآراء الخبراء، مما يساعدك على اتخاذ القرار الأمثل.
+                    انضم إلينا واستفد من خدماتنا المتقدمة لتبسيط عملية العثور على شركاء النجاح في المملكة.
+                </Typography>
             </Container>
-        </AppBar>
+        </Box>
     );
-};
-
-export default Navbar;
+}

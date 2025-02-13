@@ -1,4 +1,3 @@
-"use client"; // Mark this component as a Client Component
 
 import { Container, Typography, Paper, Divider, Box } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -21,9 +20,7 @@ const theme = createTheme({
 
 export default function PrivacyPolicyPage() {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Container maxWidth="md" sx={{ py: 4 }}>
+      
                 <Paper
                     sx={{
                         p: 4,
@@ -130,7 +127,6 @@ export default function PrivacyPolicyPage() {
                         </Typography>
                     </Box>
                 </Paper>
-            </Container>
-        </ThemeProvider>
+   
     );
 }
