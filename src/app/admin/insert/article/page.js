@@ -61,6 +61,7 @@ const AddArticle = () => {
         paragraphs: [{ header: '', content: '', image: null }],
         company: '',
     });
+
     const [loading, setLoading] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [notification, setNotification] = useState({
@@ -69,30 +70,7 @@ const AddArticle = () => {
         severity: 'success'
     });
 
-    // دالة للتحقق من صحة المدخلات
-    const validateForm = () => {
-        if (!formData.coverImage) {
-            return "يجب تحميل صورة الغلاف.";
-        }
-        if (!formData.title.trim()) {
-            return "يجب إدخال العنوان.";
-        }
-        if (!formData.company.trim()) {
-            return "يجب اختيار الشركة.";
-        }
-        for (let i = 0; i < formData.paragraphs.length; i++) {
-            const paragraph = formData.paragraphs[i];
-            if (!paragraph.header.trim()) {
-                return `يجب إدخال عنوان للفقرة ${i + 1}.`;
-            }
-            if (!paragraph.content.trim()) {
-                return `يجب إدخال محتوى للفقرة ${i + 1}.`;
-            }
-        }
-        return "";
-    };
-
-    // جلب الشركات عند تحميل المكون
+    // Fetch companies when the component mounts
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
@@ -154,50 +132,38 @@ const AddArticle = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // التحقق من صحة النموذج قبل الإرسال
-        const validationError = validateForm();
-        if (validationError) {
-            setNotification({
-                open: true,
-                message: validationError,
-                severity: 'error'
-            });
-            return;
-        }
-
         setLoading(true);
         try {
             const dataToSend = new FormData();
             dataToSend.append("title", formData.title);
             dataToSend.append("company", formData.company);
 
-            // معالجة صورة الغلاف مع اسم الملف
+            // Handle cover image
             if (formData.coverImage) {
                 if (formData.coverImage instanceof File) {
-                    dataToSend.append("coverImage", formData.coverImage, formData.coverImage.name);
+                    dataToSend.append("coverImage", formData.coverImage);
                 } else {
                     const fileObj = dataURItoFile(formData.coverImage, 'cover-image.jpg');
-                    dataToSend.append("coverImage", fileObj, fileObj.name);
+                    dataToSend.append("coverImage", fileObj);
                 }
             }
 
-            // معالجة صور الفقرات
+            // Handle paragraphs
             formData.paragraphs.forEach((paragraph, index) => {
                 dataToSend.append(`paragraphs[${index}][header]`, paragraph.header);
                 dataToSend.append(`paragraphs[${index}][content]`, paragraph.content);
 
                 if (paragraph.image) {
                     if (paragraph.image instanceof File) {
-                        dataToSend.append(`paragraphs[${index}][image]`, paragraph.image, paragraph.image.name);
+                        dataToSend.append(`paragraphs[${index}][image]`, paragraph.image);
                     } else {
                         const fileObj = dataURItoFile(paragraph.image, `paragraph-${index}.jpg`);
-                        dataToSend.append(`paragraphs[${index}][image]`, fileObj, fileObj.name);
+                        dataToSend.append(`paragraphs[${index}][image]`, fileObj);
                     }
                 }
             });
 
-            // Debug: Log FormData entries
+            // Log FormData entries to the console
             console.log("FormData Entries:");
             for (let [key, value] of dataToSend.entries()) {
                 console.log(key, value);
@@ -207,11 +173,9 @@ const AddArticle = () => {
                 method: "POST",
                 body: dataToSend
             });
-            console.log(response);
 
             if (!response.ok) {
-                const errorResponse = await response.json();
-                throw new Error(errorResponse.error ? errorResponse.error.message : "فشل في نشر المقال.");
+                throw new Error("فشل في نشر المقال.");
             }
 
             const responseData = await response.json();
@@ -223,18 +187,18 @@ const AddArticle = () => {
                 severity: 'success'
             });
 
-            // إعادة تعيين النموذج (حسب الحاجة)
-            // setFormData({
-            //   title: '',
-            //   coverImage: null,
-            //   paragraphs: [{ header: '', content: '', image: null }],
-            //   company: '',
-            // });
+            // Reset form
+            setFormData({
+                title: '',
+                coverImage: null,
+                paragraphs: [{ header: '', content: '', image: null }],
+                company: '',
+            });
         } catch (error) {
             console.error("Error submitting article:", error);
             setNotification({
                 open: true,
-                message: error.message || 'حدث خطأ أثناء النشر!',
+                message: 'حدث خطأ أثناء النشر!',
                 severity: 'error'
             });
         } finally {
@@ -259,7 +223,7 @@ const AddArticle = () => {
                             {/* Cover Image Upload */}
                             <Box sx={{ mb: 3 }}>
                                 <Button variant="contained" component="label">
-                                    (الزامى)تحميل صورة الغلاف
+                                    تحميل صورة الغلاف
                                     <input
                                         type="file"
                                         name="coverImage"
@@ -374,15 +338,19 @@ const AddArticle = () => {
                                     ))
                                 )}
                             </TextField>
-
                             <Button
                                 type="submit"
                                 variant="contained"
                                 size="large"
+                                sx={{
+                                    backgroundColor: '#006c35',
+                                    '&:hover': {
+                                        backgroundColor: '#005128',
+                                    },
+                                }}
                                 disabled={loading}
-                                sx={{ bgcolor: 'primary.main', color: 'white', '&:hover': { bgcolor: '#005528' } }}
                             >
-                                {loading ? <CircularProgress size={24} color="inherit" /> : 'نشر المقال'}
+                                {loading ? 'جاري الإضافة...' : 'إضافة الخدمة'}
                             </Button>
                         </StyledForm>
                     </StyledPaper>

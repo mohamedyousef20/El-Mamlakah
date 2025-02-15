@@ -18,7 +18,7 @@
 
 body {
   direction: rtl;
-  overflow-x: hidden;  
+  overflow:auto ;  
   font-family: "'Noto Kufi Arabic', sans-serif",
 }
 

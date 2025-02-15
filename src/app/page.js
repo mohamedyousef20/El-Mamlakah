@@ -68,82 +68,85 @@ const page = async () => {
   console.log(services)
 
   return (
-    <Box >
-      {/* Logo Section */}
-      {/* <Box bgcolor="background.paper" py={{ xs: 2, md: 3 }} textAlign="center">
+    <Container>
+      <Box >
+        {/* Logo Section */}
+        {/* <Box bgcolor="background.paper" py={{ xs: 2, md: 3 }} textAlign="center">
         <Container maxWidth="lg">
           <Logo />
         </Container>
       </Box> */}
 
-      {/* Contact and Social Media Section */}
-      <Box bgcolor="background.default" py={{ xs: 1, md: 2 }}>
-        <Container maxWidth="lg">
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={{ xs: 1, md: 2 }}
-          >
-            {/* Contact Information */}
+        {/* Contact and Social Media Section */}
+        <Box bgcolor="background.default" py={{ xs: 1, md: 2 }}>
+          <Container maxWidth="lg">
             <Stack
-              direction={{ xs: "row", md: "row" }}
-              spacing={{ xs: 1, md: 2 }}
-              gap={2}
+              direction={{ xs: "column", md: "row" }}
+              justifyContent="space-between"
               alignItems="center"
+              spacing={{ xs: 1, md: 2 }}
             >
-              <Typography
-                variant="body2"
-                display="flex"
+              {/* Contact Information */}
+              <Stack
+                direction={{ xs: "row", md: "row" }}
+                spacing={{ xs: 1, md: 2 }}
+                gap={2}
                 alignItems="center"
-                sx={{ color: '#006C35', fontFamily: "'Tajawal', sans-serif",fontSize:".75rem" }}
               >
-                {/* Replace the following with an icon if needed */}
-                <PhoneAndroid />+966 123 456 789
-              </Typography>
-              <Typography
-                variant="body2"
-                display="flex"
-                alignItems="center"
-                sx={{ color: '#111827', fontFamily: "'Tajawal', sans-serif",fontSize:".75rem" }}
-              >
-                info@company.com<Email />
-              </Typography>
-            </Stack>
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  sx={{ color: '#006C35', fontFamily: "'Tajawal', sans-serif", fontSize: ".75rem" }}
+                >
+                  {/* Replace the following with an icon if needed */}
+                  <PhoneAndroid />+966 123 456 789
+                </Typography>
+                <Typography
+                  variant="body2"
+                  display="flex"
+                  alignItems="center"
+                  sx={{ color: '#111827', fontFamily: "'Tajawal', sans-serif", fontSize: ".75rem" }}
+                >
+                  info@company.com<Email />
+                </Typography>
+              </Stack>
 
-            {/* Social Media Icons */}
-            <Stack direction="row" spacing={1} sx={{ mt: { xs: 1, md: 2 } }}>
-              <IconButton color="primary" size="small" sx={{ color:"#006c35"}}>
-                <Facebook fontSize="small" />
-              </IconButton>
-              <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
-                <Twitter fontSize="small" />
-              </IconButton>
-              <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
-                <Instagram fontSize="small" />
-              </IconButton>
+              {/* Social Media Icons */}
+              <Stack direction="row" spacing={1} sx={{ mt: { xs: 1, md: 2 } }}>
+                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                  <Facebook fontSize="small" />
+                </IconButton>
+                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                  <Twitter fontSize="small" />
+                </IconButton>
+                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                  <Instagram fontSize="small" />
+                </IconButton>
+              </Stack>
             </Stack>
-          </Stack>
+          </Container>
+        </Box>
+
+        {/* Main Content (Placeholder) */}
+        <Container sx={{ my: 4 }}>
+          <Grid container spacing={4}>
+
+            <MainContent />
+          </Grid>
         </Container>
+
+        <YouTubeVideo />
+        {/* Service Section */}
+        <ServiceSection services={services} />
+
+        {/* Modals would normally be interactive. As a server component, they render in their closed state. */}
+        <Box sx={{ display: 'none' }}>
+          {/* For example, if you had a modal component, you would render it here as closed or handled by a client component */}
+        </Box>
       </Box>
-
-      {/* Main Content (Placeholder) */}
-      <Container sx={{ my: 4 }}>
-        <Grid container spacing={4}>
-
-          <MainContent />
-        </Grid>
-      </Container>
-
-<YouTubeVideo/>
-      {/* Service Section */}
-      <ServiceSection services={services} />
-
-      {/* Modals would normally be interactive. As a server component, they render in their closed state. */}
-      <Box sx={{ display: 'none' }}>
-        {/* For example, if you had a modal component, you would render it here as closed or handled by a client component */}
-      </Box>
-    </Box>
+    </Container>
+ 
   )
 }
 

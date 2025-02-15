@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Box,
     Container,
@@ -23,13 +23,13 @@ import { useTheme } from "@mui/material/styles";
 
 const IconNavBar = () => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+    const [mounted, setMounted] = useState(false);
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"), { noSsr: true });
     const [value, setValue] = useState(0);
 
-    // Only render if on mobile
-    if (!isMobile) {
-        return null;
-    }
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navItems = [
         { label: 'الرئيسية', icon: <Home />, href: '/' },
@@ -39,6 +39,8 @@ const IconNavBar = () => {
         { label: 'من نحن', icon: <Info />, href: '/about' },
         { label: 'اتصل بنا', icon: <ContactPhone />, href: '/contact' },
     ];
+
+    if (!mounted || !isMobile) return null;
 
     return (
         <Paper
@@ -57,20 +59,18 @@ const IconNavBar = () => {
         >
             <BottomNavigation
                 value={value}
-                onChange={(event, newValue) => {
-                    setValue(newValue);
-                }}
+                onChange={(event, newValue) => setValue(newValue)}
                 showLabels
                 sx={{
                     backgroundColor: 'transparent',
-                    height: isMobile ? 72 : 64,
+                    height: 72,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-around',
                     width: '100%',
                     '& .MuiBottomNavigationAction-label': {
                         fontFamily: "'Noto Kufi Arabic', sans-serif",
-                        fontSize: isMobile ? '0.75rem' : '0.85rem',
+                        fontSize: '0.75rem',
                         mt: 0.5
                     }
                 }}

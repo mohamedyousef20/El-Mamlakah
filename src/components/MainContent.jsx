@@ -1,4 +1,5 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
 import React from 'react';
 
 const MainContent = () => {
@@ -15,8 +16,8 @@ const MainContent = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    background:"#111827",
-                    borderRadius:'3px',
+                    background: "#111827",
+                    borderRadius: '3px',
                     color: '#fff',
                     '&:before': {
                         content: '""',
@@ -74,30 +75,31 @@ const MainContent = () => {
                             textShadow: '0 1px 2px rgba(0,0,0,0.2)'
                         }}
                     >
-منصتك الموثوقة للبحث عن أفضل الشركات والخدمات في مختلف المجالات مثل التنظيف، البناء، الصيانة، وغيرها! نحن نوفر لك تجربة بحث سهلة وسريعة للعثور على الشركات الموثوقة بالقرب منك، مع تفاصيل شاملة حول الخدمات المقدمة، التقييمات، وآراء العملاء.                    </Typography>
-
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        sx={{
-                            cursor:'pointer',
-                            bgcolor:"#006c35",
-                            px: 5,
-                            py: 1.5,
-                            fontSize: '1.1rem',
-                            fontFamily: "'Noto Kufi Arabic', sans-serif",
-                            fontWeight: 600,
-                            borderRadius: '8px',
-                            transition: 'all 0.3s ease',
-                            '&:hover': {
-                                transform: 'translateY(-2px)',
-                                boxShadow: '0 4px 12px rgba(255, 255, 255, 0.3)'
-                            }
-                        }}
-                    >
-                        طلب خدمة
-                    </Button>
+                        منصتك الموثوقة للبحث عن أفضل الشركات والخدمات في مختلف المجالات مثل التنظيف، البناء، الصيانة، وغيرها! نحن نوفر لك تجربة بحث سهلة وسريعة للعثور على الشركات الموثوقة بالقرب منك، مع تفاصيل شاملة حول الخدمات المقدمة، التقييمات، وآراء العملاء.                    </Typography>
+                    <Link href="/search" passHref>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            sx={{
+                                cursor: 'pointer',
+                                bgcolor: "#006c35",
+                                px: 5,
+                                py: 1.5,
+                                fontSize: '1.1rem',
+                                fontFamily: "'Noto Kufi Arabic', sans-serif",
+                                fontWeight: 600,
+                                borderRadius: '8px',
+                                transition: 'all 0.3s ease',
+                                '&:hover': {
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: '0 4px 12px rgba(255, 255, 255, 0.3)'
+                                }
+                            }}
+                        >
+                            طلب خدمة
+                        </Button>
+                    </Link>
                 </Box>
             </Box>
         </Grid>
