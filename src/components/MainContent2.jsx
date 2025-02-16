@@ -1,8 +1,8 @@
-import React from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
+import React from 'react';
 
-export default function AboutPage() {
-    // Define your slides with image paths and text content
+const MainContent = () => {
     const slides = [
         {
             image: "https://unsplash.com/photos/man-standing-beside-window-el0VzdWE6PE", // update image path if needed
@@ -22,8 +22,7 @@ export default function AboutPage() {
     ];
 
     return (
-        <Box>
-            {/* Hero Slider Section */}
+        <Grid item xs={12}>
             <Box
                 sx={{
                     position: "relative",
@@ -93,73 +92,8 @@ export default function AboutPage() {
                     </Box>
                 ))}
             </Box>
-
-            {/* Content Section */}
-            <Container sx={{ py: 4 }}>
-                <Typography
-                    variant="h4"
-                    sx={{ color: "#111827", mb: 2, textAlign: "center" }}
-                >
-                    من نحن
-                </Typography>
-                <Typography
-                    variant="body1"
-                    sx={{
-                        color: "#111827",
-                        fontSize: "1.1rem",
-                        lineHeight: 1.8,
-                        textAlign: "justify",
-                    }}
-                >
-                    شركة المملكة هي منصة مبتكرة توفر معلومات شاملة وموثوقة عن الشركات التي
-                    تقدم خدمات متنوعة في المملكة العربية السعودية. نسعى لتوفير بيانات دقيقة تشمل
-                    تقييمات العملاء وآراء الخبراء لضمان اختيار أفضل الشركات والخدمات.
-                </Typography>
-
-                {/* قسم الرؤية والهدف */}
-                <Box sx={{ mt: 4 }}>
-                    <Typography
-                        variant="h5"
-                        sx={{ color: "#111827", mb: 1, fontWeight: "bold", textAlign: "center" }}
-                    >
-                        رؤيتنا
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            color: "#111827",
-                            fontSize: "1.1rem",
-                            lineHeight: 1.8,
-                            textAlign: "justify",
-                        }}
-                    >
-                        رؤيتنا هي أن نصبح المصدر الأول للمعلومات المتخصصة حول الشركات والخدمات
-                        في المملكة، حيث نوفر منصة متطورة تمكن العملاء من اتخاذ قرارات مستنيرة واختيار
-                        أفضل مقدمي الخدمات، مما يسهم في تعزيز التنمية المستدامة في السوق السعودي.
-                    </Typography>
-                </Box>
-                <Box sx={{ mt: 4 }}>
-                    <Typography
-                        variant="h5"
-                        sx={{ color: "#111827", mb: 1, fontWeight: "bold", textAlign: "center" }}
-                    >
-                        هدفنا
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            color: "#111827",
-                            fontSize: "1.1rem",
-                            lineHeight: 1.8,
-                            textAlign: "justify",
-                        }}
-                    >
-                        هدفنا هو تقديم معلومات دقيقة وموثوقة تساعد العملاء على الوصول إلى أفضل
-                        الشركات والخدمات في المملكة، من خلال تحديث مستمر لبيانات السوق وضمان الشفافية
-                        والثقة في كل عملية بحث واختيار.
-                    </Typography>
-                </Box>
-            </Container>
-        </Box>
+        </Grid>
     );
-}
+};
+
+export default MainContent;

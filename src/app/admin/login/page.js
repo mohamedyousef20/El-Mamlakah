@@ -64,8 +64,9 @@ export default function AdminLogin() {
                     sameSite: 'strict'
                 })
                 router.push('/admin/dashboard/overview')
+                //Cookies.remove('admin-token', { path: '/' })
+
                 router.refresh()
-                Cookies.remove('admin-token', { path: '/' })
             } else {
                 setError(data.error || 'فشل تسجيل الدخول')
             }

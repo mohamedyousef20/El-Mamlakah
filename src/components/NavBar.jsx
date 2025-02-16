@@ -51,7 +51,7 @@ const NavBar = () => {
 
     const navItems = [
         { label: 'الرئيسية', href: '/' },
-        { label: 'خدماتنا', href: '/services' },
+        { label: 'خدماتنا', href: '/service' },
         { label: 'المقالات', href: '/articles' },
         { label: 'سياسة الخصوصية', href: '/policy' },
         { label: 'من نحن', href:'/about' },

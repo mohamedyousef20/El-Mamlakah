@@ -62,7 +62,7 @@ const ContactForm = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/send-email', {
+            const response = await fetch('http://localhost:5500/api/v1/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ import {
     Phone as PhoneIcon,
 } from '@mui/icons-material';
 import AdminSideBar from '@/components/AdminSideBar';
+import ProtectedComponent from '@/components/ProtectedComponent';
 
 const StatCard = styled(Card)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -35,8 +36,7 @@ export default function DashboardPage() {
         articles: 0,
         companies: 0,
         services: 0,
-        whatsappClicks: 0,
-        phoneClicks: 0
+  
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -71,8 +71,7 @@ export default function DashboardPage() {
                     articles: articlesData.count || articlesData.data?.length || 0,
                     companies: companiesData.count || companiesData.data?.length || 0,
                     services: servicesData.count || servicesData.data?.length || 0,
-                    whatsappClicks: totalClicks.whatsapp,
-                    phoneClicks: totalClicks.phone
+                
                 });
 
             } catch (err) {
@@ -90,8 +89,7 @@ export default function DashboardPage() {
         { title: 'المقالات', count: stats.articles, icon: <ArticleIcon /> },
         { title: 'الشركات', count: stats.companies, icon: <BusinessIcon /> },
         { title: 'الخدمات', count: stats.services, icon: <BuildIcon /> },
-        { title: 'نقرات الواتساب', count: stats.whatsappClicks, icon: <WhatsAppIcon /> },
-        { title: 'الاتصالات', count: stats.phoneClicks, icon: <PhoneIcon /> },
+      
     ];
 
     if (loading) {
@@ -113,75 +111,78 @@ export default function DashboardPage() {
     }
 
     return (
-        <Box sx={{ direction: 'rtl', p: 3 }}>
-            <AdminSideBar />
-            <Typography
-                variant="h4"
-                sx={{
-                    mb: 4,
-                    color: '#111827',
-                    fontFamily: "'Noto Kufi Arabic', sans-serif",
-                    fontWeight: 700,
-                    textAlign: 'right'
-                }}
-            >
-                نظرة عامة
-            </Typography>
-            <Grid container spacing={3}>
-                {statsConfig.map((stat) => (
-                    <Grid item xs={12} sm={6} md={4} key={stat.title}>
-                        <StatCard>
-                            <CardContent sx={{ p: 3 }}>
-                                <Box sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    mb: 2
-                                }}>
+        <ProtectedComponent>
+            <Box sx={{ direction: 'rtl', p: 3 }}>
+                <AdminSideBar />
+                <Typography
+                    variant="h4"
+                    sx={{
+                        mb: 4,
+                        color: '#111827',
+                        fontFamily: "'Noto Kufi Arabic', sans-serif",
+                        fontWeight: 700,
+                        textAlign: 'right'
+                    }}
+                >
+                    نظرة عامة
+                </Typography>
+                <Grid container spacing={3}>
+                    {statsConfig.map((stat) => (
+                        <Grid item xs={12} sm={6} md={4} key={stat.title}>
+                            <StatCard>
+                                <CardContent sx={{ p: 3 }}>
                                     <Box sx={{
-                                        bgcolor: '#006c35',
-                                        p: 2,
-                                        borderRadius: '8px',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        justifyContent: 'center'
+                                        justifyContent: 'space-between',
+                                        mb: 2
                                     }}>
-                                        {React.cloneElement(stat.icon, {
-                                            sx: {
-                                                fontSize: 32,
-                                                color: '#fff'
-                                            }
-                                        })}
+                                        <Box sx={{
+                                            bgcolor: '#006c35',
+                                            p: 2,
+                                            borderRadius: '8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            {React.cloneElement(stat.icon, {
+                                                sx: {
+                                                    fontSize: 32,
+                                                    color: '#fff'
+                                                }
+                                            })}
+                                        </Box>
+                                        <Box sx={{ textAlign: 'left' }}>
+                                            <Typography
+                                                variant="h6"
+                                                sx={{
+                                                    fontFamily: "'Noto Kufi Arabic', sans-serif",
+                                                    fontWeight: 500,
+                                                    color: '#9CA3AF',
+                                                    fontSize: '1rem'
+                                                }}
+                                            >
+                                                {stat.title}
+                                            </Typography>
+                                            <Typography
+                                                variant="h3"
+                                                sx={{
+                                                    fontFamily: "'Noto Kufi Arabic', sans-serif",
+                                                    fontWeight: 700,
+                                                    color: '#fff'
+                                                }}
+                                            >
+                                                {stat.count}
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                    <Box sx={{ textAlign: 'left' }}>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontFamily: "'Noto Kufi Arabic', sans-serif",
-                                                fontWeight: 500,
-                                                color: '#9CA3AF',
-                                                fontSize: '1rem'
-                                            }}
-                                        >
-                                            {stat.title}
-                                        </Typography>
-                                        <Typography
-                                            variant="h3"
-                                            sx={{
-                                                fontFamily: "'Noto Kufi Arabic', sans-serif",
-                                                fontWeight: 700,
-                                                color: '#fff'
-                                            }}
-                                        >
-                                            {stat.count}
-                                        </Typography>
-                                    </Box>
-                                </Box>
-                            </CardContent>
-                        </StatCard>
-                    </Grid>
-                ))}
-            </Grid>
-        </Box>
+                                </CardContent>
+                            </StatCard>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
+        </ProtectedComponent>
+      
     );
 }

@@ -18,7 +18,28 @@
 
 body {
   direction: rtl;
-  overflow:auto ;  
+  overflow-x: hidden;
   font-family: "'Noto Kufi Arabic', sans-serif",
 }
 
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  35% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

@@ -36,7 +36,11 @@ const AllArticlePage = async ({ searchParams }) => {
   const hasFilters = service || area || province;
 
   return (
-    <Box sx={{ backgroundColor: "#F4F4F4", py: 6, minHeight: "100vh" }}>
+    <Box sx={{
+      backgroundColor: "#F4F4F4", 
+      minHeight: "100vh",
+      py: { xs: 4, sm: 6 },
+    }}>
       <Container>
         <Typography
           variant="h3"
@@ -72,7 +76,7 @@ const AllArticlePage = async ({ searchParams }) => {
               : "لا توجد مقالات متاحة."}
           </Alert>
         ) : (
-          <Grid container spacing={4} dir="rtl">
+          <Grid container spacing={2} dir="rtl">
             {articles.map((article) => {
               // Use the first paragraph (if available) for an excerpt
               const firstParagraph =
@@ -152,7 +156,7 @@ const AllArticlePage = async ({ searchParams }) => {
           </Grid>
         )}
       </Container>
-    </Box>
+    // </Box>
   );
 };
 

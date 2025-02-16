@@ -48,10 +48,10 @@ export default function AdminNavBar({ children }) {
     const isMobile = useMediaQuery('(max-width:900px)');
 
     const menuItems = [
-        { text: 'لوحة التحكم', icon: <DashboardIcon />, path: '/dashboard' },
-        { text: 'المقالات', icon: <ArticleIcon />, path: '/dashboard/articles' },
-        { text: 'الشركات', icon: <BusinessIcon />, path: '/dashboard/companies' },
-        { text: 'الخدمات', icon: <BuildIcon />, path: '/dashboard/services' },
+        { text: 'لوحة التحكم', icon: <DashboardIcon />, path: '/admin/dashboard/overview' },
+        { text: 'المقالات', icon: <ArticleIcon />, path: '/admin/dashboard/articles' },
+        { text: 'الشركات', icon: <BusinessIcon />, path: '/admin/dashboard/companies' },
+        { text: 'الخدمات', icon: <BuildIcon />, path: '/admin/dashboard/services' },
     ];
 
     const drawer = (

@@ -20,7 +20,7 @@ const ServiceAreaProvinceSelector = () => {
     const router = useRouter();
 
     // Use these parameters in your fetch request
-  
+
     // Define regions and their corresponding provinces
     const regions = {
         "منطقة الرياض": ["الرياض", "الخرج", "الدوادمي", "الزلفي", "المجمعة"],
@@ -116,7 +116,7 @@ const ServiceAreaProvinceSelector = () => {
     return (
         <Box sx={{
             maxWidth: '800px',
-            margin: '0 auto',
+            margin: '15px auto',
             p: { xs: 2, md: 4 },
             backgroundColor: '#fff',
             borderRadius: '16px',

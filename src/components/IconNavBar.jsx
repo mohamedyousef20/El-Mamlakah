@@ -34,7 +34,7 @@ const IconNavBar = () => {
     const navItems = [
         { label: 'الرئيسية', icon: <Home />, href: '/' },
         { label: 'المقالات', icon: <Article />, href: '/articles' },
-        { label: 'خدماتنا', icon: <Build />, href: '/services' },
+        { label: 'خدماتنا', icon: <Build />, href: '/service' },
         { label: 'الخصوصية', icon: <Policy />, href: '/policy' },
         { label: 'من نحن', icon: <Info />, href: '/about' },
         { label: 'اتصل بنا', icon: <ContactPhone />, href: '/contact' },
