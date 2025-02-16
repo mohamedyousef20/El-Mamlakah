@@ -4,6 +4,7 @@ import { Noto_Kufi_Arabic } from 'next/font/google';
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import IconNavBar from '@/components/IconNavBar';
+import { Almarai } from 'next/font/google';
 
 const kufiArabic = Noto_Kufi_Arabic({
   subsets: ['arabic'],

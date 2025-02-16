@@ -106,11 +106,21 @@ export default function AdminNavBar({ children }) {
                     borderBottom: '1px solid #ffffff20'
                 }}
             >
-                <Toolbar sx={{
-                    justifyContent: 'space-between',
-                    direction: 'rtl',
-                    // gap: 2
-                }}>
+                <Toolbar sx={{ justifyContent: 'space-between', direction: 'rtl' }}>
+                    {/* Home Page Link */}
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontFamily: "'Noto Kufi Arabic', sans-serif",
+                                fontWeight: 700,
+                                color: '#fff'
+                            }}
+                        >
+                            الذهاب الى الموقع
+                        </Typography>
+                    </Link>
+
                     {isMobile ? (
                         <IconButton
                             color="inherit"
@@ -178,7 +188,10 @@ export default function AdminNavBar({ children }) {
                 </Drawer>
             </Box>
 
-         
+            {/* Render children (e.g., page content) */}
+            <Box sx={{ mt: '64px' }}>
+                {children}
+            </Box>
         </Box>
     );
 }

@@ -5,7 +5,6 @@ import {
     Container,
     Typography,
     Paper,
-    MenuItem,
     Snackbar,
     Alert,
     CircularProgress,
@@ -20,11 +19,13 @@ import {
     Delete as DeleteIcon,
     Add as AddIcon,
     Phone as PhoneIcon,
-    Email as EmailIcon
+    WhatsApp
 } from '@mui/icons-material';
 import AdminSideBar from '@/components/AdminSideBar';
 import Link from 'next/link';
 import ProtectedComponent from '@/components/ProtectedComponent';
+import ConfirmationDialog from '@/components/ConfirmationDialog';
+import UpdateDialog from '@/components/UpdateDialog';
 
 const CompanyCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -56,6 +57,12 @@ export default function CompaniesPage() {
         message: '',
         severity: 'success'
     });
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [companyToDelete, setCompanyToDelete] = useState(null);
+
+    // State for the update dialog
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+    const [editingCompany, setEditingCompany] = useState(null);
 
     useEffect(() => {
         const fetchCompanies = async () => {
@@ -82,13 +89,87 @@ export default function CompaniesPage() {
         fetchCompanies();
     }, []);
 
-    const handleDelete = (id) => {
-        // For now, just filter out the company from the state.
-        setCompanies(companies.filter(company => company._id !== id));
-    };
-
     const handleCloseNotification = () => {
         setNotification(prev => ({ ...prev, open: false }));
+    };
+
+    // Delete Logic
+    const openDeleteDialog = (company) => {
+        setCompanyToDelete({ id: company._id });
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!companyToDelete) return;
+        try {
+            const res = await fetch("http://localhost:5500/api/v1/company/delete", {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(companyToDelete)
+            });
+            if (!res.ok) {
+                throw new Error("فشل في حذف الشركة");
+            }
+            // Remove the deleted company from the state (compare _id)
+            setCompanies(companies.filter(company => company._id !== companyToDelete.id));
+            setNotification({
+                open: true,
+                message: 'تم حذف الشركة بنجاح!',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error("Error deleting company:", error);
+            setNotification({
+                open: true,
+                message: 'حدث خطأ أثناء حذف الشركة!',
+                severity: 'error'
+            });
+        } finally {
+            setDeleteDialogOpen(false);
+            setCompanyToDelete(null);
+        }
+    };
+
+    // Update Logic: Open update dialog and prefill form
+    const openUpdateCompanyDialog = (company) => {
+        setEditingCompany(company);
+        setOpenUpdateDialog(true);
+    };
+
+    // When the reusable update dialog is submitted, handle the update.
+    const handleUpdate = async (updatedData) => {
+        try {
+            const res = await fetch("http://localhost:5500/api/v1/company/update", {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: editingCompany._id,
+                    ...updatedData
+                })
+            });
+            if (!res.ok) {
+                throw new Error("فشل في تحديث الشركة");
+            }
+            const updatedResponse = await res.json();
+            // Assuming your API returns the updated company data in updatedResponse.data
+            const updatedCompany = updatedResponse.data;
+            setCompanies(companies.map(company => company._id === editingCompany._id ? updatedCompany : company));
+            setNotification({
+                open: true,
+                message: 'تم تحديث الشركة بنجاح!',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error("Error updating company:", error);
+            setNotification({
+                open: true,
+                message: 'حدث خطأ أثناء تحديث الشركة!',
+                severity: 'error'
+            });
+        } finally {
+            setOpenUpdateDialog(false);
+            setEditingCompany(null);
+        }
     };
 
     return (
@@ -142,9 +223,9 @@ export default function CompaniesPage() {
                                                     {company.name}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                                    <EmailIcon sx={{ color: '#006c35', mr: 1, fontSize: '1.2rem' }} />
+                                                    <WhatsApp sx={{ color: '#006c35', mr: 1, fontSize: '1.2rem' }} />
                                                     <Typography sx={{ fontFamily: "'Noto Kufi Arabic', sans-serif", color: '#9CA3AF' }}>
-                                                        {company.email}
+                                                        {company.whatsapp}
                                                     </Typography>
                                                 </Box>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -168,13 +249,13 @@ export default function CompaniesPage() {
                                                 }}>
                                                     <IconButton
                                                         sx={{ color: '#006c35' }}
-                                                        onClick={() => {/* Handle edit action, navigate to edit page */ }}
+                                                        onClick={() => openUpdateCompanyDialog(company)}
                                                     >
                                                         <EditIcon />
                                                     </IconButton>
                                                     <IconButton
                                                         sx={{ color: '#ef4444' }}
-                                                        onClick={() => handleDelete(company._id)}
+                                                        onClick={() => openDeleteDialog(company)}
                                                     >
                                                         <DeleteIcon />
                                                     </IconButton>
@@ -187,7 +268,6 @@ export default function CompaniesPage() {
                         )}
                     </Box>
                 </Container>
-
                 <Snackbar
                     open={notification.open}
                     autoHideDuration={6000}
@@ -199,6 +279,43 @@ export default function CompaniesPage() {
                     </Alert>
                 </Snackbar>
             </Stack>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmationDialog
+                open={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title="تأكيد الحذف"
+                description="هل أنت متأكد أنك تريد حذف هذه الشركة؟"
+                confirmButtonText="حذف"
+                cancelButtonText="إلغاء"
+            />
+
+            {/* Reusable Update Dialog */}
+            <UpdateDialog
+                open={openUpdateDialog}
+                onClose={() => setOpenUpdateDialog(false)}
+                onSubmit={handleUpdate}
+                title="تحديث الشركة"
+                initialValues={
+                    editingCompany
+                        ? {
+                            name: editingCompany.name,
+                            phone: editingCompany.phone || '',
+                            whatsapp: editingCompany.whatsapp || '',
+                            area: editingCompany.area || '',
+                            province: editingCompany.province || ''
+                        }
+                        : {}
+                }
+                labels={{
+                    name: "اسم الشركة",
+                    whatsapp: "الوتس آب",
+                    phone: "الهاتف",
+                    area: "المنطقة",
+                    province: "المحافظة"
+                }}
+            />
         </ProtectedComponent>
     );
 }

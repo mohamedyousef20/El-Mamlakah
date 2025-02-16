@@ -12,7 +12,7 @@ import {
     Snackbar,
     Alert
 } from '@mui/material';
-import { Phone, Email, LocationOn } from '@mui/icons-material';
+import { Phone, Email, LocationOn, WhatsApp } from '@mui/icons-material';
 
 // Load Almarai font
 import { Almarai } from 'next/font/google';
@@ -81,7 +81,6 @@ const ContactForm = () => {
                 severity: 'success'
             });
             setFormData({ name: '', email: '', subject: '', message: '' });
-
         } catch (error) {
             setNotification({
                 open: true,
@@ -124,27 +123,55 @@ const ContactForm = () => {
                                     معلومات التواصل
                                 </Typography>
 
-                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                                    <Box sx={{
-                                        bgcolor: '#006c35',
-                                        borderRadius: '50%',
-                                        p: 1.5,
-                                        mr: 2,
-                                        display: 'flex',
-                                        alignItems: 'center'
-                                    }}>
-                                        <Phone sx={{ color: '#fff', fontSize: 28 }} />
+                                {/* Phone - click to call */}
+                                <a href="tel:009660534831302" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                                        <Box sx={{
+                                            bgcolor: '#006c35',
+                                            borderRadius: '50%',
+                                            p: 1.5,
+                                            mr: 2,
+                                            display: 'flex',
+                                            alignItems: 'center'
+                                        }}>
+                                            <Phone sx={{ color: '#fff', fontSize: 28 }} />
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="body1" sx={{ color: '#9ca3af' }}>
+                                                الهاتف
+                                            </Typography>
+                                            <Typography variant="h6" sx={{ color: '#fff' }}>
+                                                009660534831302
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                    <Box>
-                                        <Typography variant="body1" sx={{ color: '#9ca3af' }}>
-                                            الهاتف
-                                        </Typography>
-                                        <Typography variant="h6" sx={{ color: '#fff' }}>
-                                            +966 55 123 4567
-                                        </Typography>
-                                    </Box>
-                                </Box>
+                                </a>
 
+                                {/* WhatsApp - click to open chat */}
+                                <a href="https://wa.me/9660534831302" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                                        <Box sx={{
+                                            bgcolor: '#006c35',
+                                            borderRadius: '50%',
+                                            p: 1.5,
+                                            mr: 2,
+                                            display: 'flex',
+                                            alignItems: 'center'
+                                        }}>
+                                            <WhatsApp sx={{ color: '#fff', fontSize: 28 }} />
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="body1" sx={{ color: '#9ca3af' }}>
+                                                الواتس آب
+                                            </Typography>
+                                            <Typography variant="h6" sx={{ color: '#fff' }}>
+                                                9660534831302
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </a>
+
+                                {/* Email */}
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
                                     <Box sx={{
                                         bgcolor: '#006c35',
@@ -161,11 +188,12 @@ const ContactForm = () => {
                                             البريد الإلكتروني
                                         </Typography>
                                         <Typography variant="h6" sx={{ color: '#fff' }}>
-                                            info@example.com
+                                            elmamlaka@example.com
                                         </Typography>
                                     </Box>
                                 </Box>
 
+                                {/* Location */}
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <Box sx={{
                                         bgcolor: '#006c35',

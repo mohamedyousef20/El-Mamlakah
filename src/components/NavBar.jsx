@@ -24,6 +24,7 @@ import Link from "next/link";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Logo from "./Logo";
+import AdminDashboardButton from "./AdminDashboardButton";
 
 const NavBar = () => {
     const theme = useTheme();
@@ -70,6 +71,8 @@ const NavBar = () => {
                     cursor:'pointer'
                 }}
             >
+                   {/* Dashboard Button (only for admin) */}
+                       
                 <Container maxWidth="lg">
                     <Toolbar
                         disableGutters

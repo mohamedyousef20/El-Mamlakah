@@ -20,11 +20,12 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li className="flex items-center gap-2">
                                 <Phone size={18} />
-                                <span>+966 123 456 789</span>
+                                <span>009660534831302
+                                </span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <Mail size={18} />
-                                <span>info@alandaluscleaning.com</span>
+                                <span>elmamlaka@gmail.com</span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <MapPin size={18} />

@@ -5,13 +5,17 @@ import {
     Container,
     Typography,
     Paper,
-    MenuItem,
     Snackbar,
     Alert,
     CircularProgress,
     Grid,
     IconButton,
     Button,
+    TextField,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
     styled,
     Stack
 } from '@mui/material';
@@ -25,6 +29,7 @@ import {
 import AdminSideBar from '@/components/AdminSideBar';
 import Link from 'next/link';
 import ProtectedComponent from '@/components/ProtectedComponent';
+import ConfirmationDialog from '@/components/ConfirmationDialog';
 
 const ServiceCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -49,12 +54,23 @@ const StyledButton = styled(Button)({
 });
 
 export default function ServicesPage() {
-    const [services, setServices] = useState([]); // initially empty array
+    const [services, setServices] = useState([]); 
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState({
         open: false,
         message: '',
         severity: 'success'
+    });
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [serviceToDelete, setServiceToDelete] = useState(null);
+
+    // State for updating service
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+    const [editingService, setEditingService] = useState(null);
+    const [updateData, setUpdateData] = useState({
+        name: '',
+        desc: '',
+    
     });
 
     useEffect(() => {
@@ -82,16 +98,96 @@ export default function ServicesPage() {
         fetchServices();
     }, []);
 
-    const handleDelete = (id) => {
-        setServices(services.filter(service => service._id !== id));
-    };
-
     const handleCloseNotification = () => {
         setNotification(prev => ({ ...prev, open: false }));
     };
 
+    // Delete Logic
+    const openDeleteDialog = (service) => {
+        setServiceToDelete({ id: service._id });
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!serviceToDelete) return;
+        try {
+            const res = await fetch("http://localhost:5500/api/v1/service/delete", {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(serviceToDelete)
+            });
+            if (!res.ok) {
+                throw new Error("فشل في حذف الخدمة");
+            }
+            // Remove the deleted service from the state (compare _id)
+            setServices(services.filter(service => service._id !== serviceToDelete.id));
+            setNotification({
+                open: true,
+                message: 'تم حذف الخدمة بنجاح!',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error("Error deleting service:", error);
+            setNotification({
+                open: true,
+                message: 'حدث خطأ أثناء حذف الخدمة!',
+                severity: 'error'
+            });
+        } finally {
+            setDeleteDialogOpen(false);
+            setServiceToDelete(null);
+        }
+    };
+
+    // Update Logic: Open update dialog and prefill form
+    const openUpdateServiceDialog = (service) => {
+        setEditingService(service);
+        setUpdateData({
+            name: service.name,
+            desc: service.desc || '',
+        });
+        setOpenUpdateDialog(true);
+    };
+
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch("http://localhost:5500/api/v1/service/update", {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: editingService._id,
+                    ...updateData
+                })
+            });
+            if (!res.ok) {
+                throw new Error("فشل في تحديث الخدمة");
+            }
+            const updatedResponse = await res.json();
+            // Assuming your API returns the updated service data in updatedResponse.data
+            const updatedService = updatedResponse.data;
+            setServices(services.map(service => service._id === editingService._id ? updatedService : service));
+            setNotification({
+                open: true,
+                message: 'تم تحديث الخدمة بنجاح!',
+                severity: 'success'
+            });
+        } catch (error) {
+            console.error("Error updating service:", error);
+            setNotification({
+                open: true,
+                message: 'حدث خطأ أثناء تحديث الخدمة!',
+                severity: 'error'
+            });
+        } finally {
+            setOpenUpdateDialog(false);
+            setEditingService(null);
+        }
+    };
+
     return (
-      <ProtectedComponent>
+        <ProtectedComponent>
             <Stack direction="row">
                 <AdminSideBar />
                 <Container sx={{ my: 5 }}>
@@ -173,13 +269,13 @@ export default function ServicesPage() {
                                                 }}>
                                                     <IconButton
                                                         sx={{ color: '#006c35' }}
-                                                        onClick={() => {/* Handle edit action for service */ }}
+                                                        onClick={() => openUpdateServiceDialog(service)}
                                                     >
                                                         <EditIcon />
                                                     </IconButton>
                                                     <IconButton
                                                         sx={{ color: '#ef4444' }}
-                                                        onClick={() => handleDelete(service._id)}
+                                                        onClick={() => openDeleteDialog(service)}
                                                     >
                                                         <DeleteIcon />
                                                     </IconButton>
@@ -192,7 +288,6 @@ export default function ServicesPage() {
                         )}
                     </Box>
                 </Container>
-
                 <Snackbar
                     open={notification.open}
                     autoHideDuration={6000}
@@ -204,6 +299,49 @@ export default function ServicesPage() {
                     </Alert>
                 </Snackbar>
             </Stack>
-      </ProtectedComponent>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmationDialog
+                open={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={handleConfirmDelete}
+                title="تأكيد الحذف"
+                description="هل أنت متأكد أنك تريد حذف هذه الخدمة؟"
+                confirmButtonText="حذف"
+                cancelButtonText="إلغاء"
+            />
+
+            {/* Update Service Dialog */}
+            {/* Update Service Dialog */}
+            <Dialog open={openUpdateDialog} onClose={() => setOpenUpdateDialog(false)} fullWidth>
+                <DialogTitle>تحديث الخدمة</DialogTitle>
+                <Box component="form" onSubmit={handleUpdate}>
+                    <DialogContent>
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            label="اسم الخدمة"
+                            value={updateData.name}
+                            onChange={(e) => setUpdateData({ ...updateData, name: e.target.value })}
+                        />
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            label="الوصف"
+                            multiline
+                            rows={4}
+                            value={updateData.desc}
+                            onChange={(e) => setUpdateData({ ...updateData, desc: e.target.value })}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenUpdateDialog(false)}>إلغاء</Button>
+                        <Button type="submit" variant="contained" color="primary">تحديث</Button>
+                    </DialogActions>
+                </Box>
+            </Dialog>
+
+
+        </ProtectedComponent>
     );
 }

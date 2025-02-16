@@ -52,7 +52,7 @@ const MainContent = () => {
                         sx={{
                             fontSize: { xs: '2rem', sm: '3rem', md: '3.5rem' },
                             fontWeight: 800,
-                            fontFamily: "'Noto Kufi Arabic', sans-serif",
+                            fontFamily: "'Almarai', sans-serif",
                             lineHeight: 1.2,
                             letterSpacing: { xs: '-0.5px', md: '-1px' },
                             mb: 3,

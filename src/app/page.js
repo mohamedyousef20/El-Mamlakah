@@ -12,11 +12,11 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import ServiceSection from '@/components/ServiceSection';
-import { Email, Facebook, Instagram, LinkedIn, PhoneAndroid, Twitter } from '@mui/icons-material';
+import { Email, Facebook, Instagram, Twitter, PhoneAndroid } from '@mui/icons-material';
 import { Phone } from 'lucide-react';
 import MainContent from '@/components/MainContent';
 import YouTubeVideo from '@/components/VideoSection';
-
+import AdminDashboardButton from '@/components/AdminDashboardButton';
 
 const theme = createTheme({
   direction: 'rtl',
@@ -65,19 +65,12 @@ const page = async () => {
   const res = await fetch("http://localhost:5500/api/v1/service");
   const data = await res.json();
   const services = data.data;
-  console.log(services)
+  console.log(services);
 
   return (
     <Container>
-      <Box >
-        {/* Logo Section */}
-        {/* <Box bgcolor="background.paper" py={{ xs: 2, md: 3 }} textAlign="center">
-        <Container maxWidth="lg">
-          <Logo />
-        </Container>
-      </Box> */}
-
-        {/* Contact and Social Media Section */}
+      <Box>
+        {/* Top Bar: Contact and Social Media Section */}
         <Box bgcolor="background.default" py={{ xs: 1, md: 2 }}>
           <Container maxWidth="lg">
             <Stack
@@ -99,8 +92,7 @@ const page = async () => {
                   alignItems="center"
                   sx={{ color: '#006C35', fontFamily: "'Tajawal', sans-serif", fontSize: ".75rem" }}
                 >
-                  {/* Replace the following with an icon if needed */}
-                  <PhoneAndroid />+966 123 456 789
+                  <PhoneAndroid />009660534831302
                 </Typography>
                 <Typography
                   variant="body2"
@@ -108,19 +100,19 @@ const page = async () => {
                   alignItems="center"
                   sx={{ color: '#111827', fontFamily: "'Tajawal', sans-serif", fontSize: ".75rem" }}
                 >
-                  info@company.com<Email />
+                  elmamlaka@company.com <Email />
                 </Typography>
               </Stack>
 
               {/* Social Media Icons */}
               <Stack direction="row" spacing={1} sx={{ mt: { xs: 1, md: 2 } }}>
-                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                <IconButton color="primary" size="small" sx={{ color: "#006C35" }}>
                   <Facebook fontSize="small" />
                 </IconButton>
-                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                <IconButton color="primary" size="small" sx={{ color: "#006C35" }}>
                   <Twitter fontSize="small" />
                 </IconButton>
-                <IconButton color="primary" size="small" sx={{ color: "#006c35" }}>
+                <IconButton color="primary" size="small" sx={{ color: "#006C35" }}>
                   <Instagram fontSize="small" />
                 </IconButton>
               </Stack>
@@ -128,26 +120,29 @@ const page = async () => {
           </Container>
         </Box>
 
-        {/* Main Content (Placeholder) */}
+     
+        <Box>
+          <AdminDashboardButton />
+        </Box>
+        {/* Main Content Section */}
         <Container sx={{ my: 4 }}>
           <Grid container spacing={4}>
-
             <MainContent />
           </Grid>
         </Container>
 
         <YouTubeVideo />
+
         {/* Service Section */}
         <ServiceSection services={services} />
 
-        {/* Modals would normally be interactive. As a server component, they render in their closed state. */}
+        {/* Additional Modals (if any) */}
         <Box sx={{ display: 'none' }}>
-          {/* For example, if you had a modal component, you would render it here as closed or handled by a client component */}
+          {/* Modal components rendered here */}
         </Box>
       </Box>
     </Container>
- 
-  )
-}
+  );
+};
 
-export default page
+export default page;
