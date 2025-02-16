@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { memo } from "react";
 import {
     Box,
     Container,
@@ -10,37 +10,14 @@ import {
     Button,
     styled,
     Paper
-} from '@mui/material';
+} from "@mui/material";
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import BugReportIcon from '@mui/icons-material/BugReport';
 import PoolIcon from '@mui/icons-material/Pool';
 import AirIcon from '@mui/icons-material/Air';
 import WeekendIcon from '@mui/icons-material/Weekend';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import { CarRental } from "@mui/icons-material";
 
-const ServiceHero = styled(Box)(({ theme }) => ({
-    backgroundColor: '#111827',
-    color: '#fff',
-    padding: theme.spacing(8),
-    textAlign: 'center',
-    backgroundImage: 'linear-gradient(to right, #111827 60%, #006c35)',
-    [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(4)
-    }
-}));
-
-const ServiceCard = styled(Card)(({ theme }) => ({
-    height: '100%',
-    transition: 'all 0.3s ease',
-    border: '1px solid #e5e7eb',
-    '&:hover': {
-        transform: 'translateY(-5px)',
-        boxShadow: '0 8px 24px rgba(0, 108, 53, 0.1)',
-        borderColor: '#006c35'
-    }
-}));
-
-// Updated services for cleaning
 const services = [
     {
         title: 'تنظيف وتعقيم المنازل والفلل والقصور',
@@ -74,13 +51,44 @@ const services = [
     },
     {
         title: 'تنظيف وتعقيم السيارات',
-        icon: <DirectionsCarIcon />,
+        icon: <CarRental/>,
         description:
             'تنظيف وتعقيم السيارات في المكان المطلوب باحدث تقنيات التنظيف والتعقيم وباستخدام البخار'
     }
 ];
 
-export default function ServicesPage() {
+const ServiceHero = styled(Box)(({ theme }) => ({
+    backgroundColor: '#111827',
+    color: '#fff',
+    padding: theme.spacing(8),
+    textAlign: 'center',
+    backgroundImage: 'linear-gradient(to right, #111827 60%, #006c35)',
+    [theme.breakpoints.down('md')]: {
+        padding: theme.spacing(4)
+    }
+}));
+
+const ServiceCard = styled(Card)(({ theme }) => ({
+    height: '100%',
+    transition: 'all 0.3s ease',
+    border: '1px solid #e5e7eb',
+    '&:hover': {
+        transform: 'translateY(-5px)',
+        boxShadow: '0 8px 24px rgba(0, 108, 53, 0.1)',
+        borderColor: '#006c35'
+    }
+}));
+
+const StyledButton = styled(Button)({
+    fontFamily: "'Noto Kufi Arabic', sans-serif",
+    fontWeight: 600,
+    backgroundColor: '#006c35',
+    '&:hover': {
+        backgroundColor: '#005a2b'
+    }
+});
+
+const ServicesPage = () => {
     return (
         <Box sx={{ direction: 'rtl' }}>
             {/* Hero Section */}
@@ -123,7 +131,7 @@ export default function ServicesPage() {
             </ServiceHero>
 
             {/* Services Grid */}
-            <Container maxWidth="lg" >
+            <Container maxWidth="lg">
                 <Typography
                     variant="h3"
                     sx={{
@@ -184,9 +192,7 @@ export default function ServicesPage() {
                     ))}
                 </Grid>
                 {/* CTA Section */}
-                <Box sx={{
-                    bgcolor: '#111827', py: 8, my: 5,
-                }}>
+                <Box sx={{ bgcolor: '#111827', py: 8, my: 5 }}>
                     <Container maxWidth="lg">
                         <Paper
                             sx={{
@@ -236,10 +242,8 @@ export default function ServicesPage() {
                     </Container>
                 </Box>
             </Container>
-
-
-
-
         </Box>
     );
-}
+};
+
+export default memo(ServicesPage);

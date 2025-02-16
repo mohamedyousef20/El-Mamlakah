@@ -1,4 +1,4 @@
-// File: app/articles/page.jsx
+export const revalidate = 60; 
 import {
   Box,
   Container,

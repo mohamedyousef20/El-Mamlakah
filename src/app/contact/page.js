@@ -10,11 +10,11 @@ import {
     Paper,
     styled,
     Snackbar,
-    Alert
+    Alert,
+    CircularProgress
 } from '@mui/material';
 import { Phone, Email, LocationOn, WhatsApp } from '@mui/icons-material';
-
-// Load Almarai font
+// Load Almarai font from Next.js
 import { Almarai } from 'next/font/google';
 const almarai = Almarai({
     weight: ['300', '400', '700'],
@@ -33,7 +33,7 @@ const ContactSection = styled(Box)(({ theme }) => ({
 const ContactCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
     color: '#fff',
-    padding: theme.spacing(4),
+    padding: theme.spacing(2),
     borderRadius: '12px',
     height: '100%',
     transition: 'transform 0.3s ease',
@@ -60,21 +60,13 @@ const ContactForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             const response = await fetch('http://localhost:5500/api/v1/contact', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    to: 'mohamedyousefle@gmail.com'
-                }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...formData, to: 'mohamedyousefle@gmail.com' })
             });
-
             if (!response.ok) throw new Error('Failed to send message');
-
             setNotification({
                 open: true,
                 message: 'تم إرسال الرسالة بنجاح!',
@@ -98,28 +90,34 @@ const ContactForm = () => {
 
     return (
         <Container>
-            <Box sx={{ bgcolor: '#f8f9fa', py: 8 }}>
+            <Box sx={{ bgcolor: '#f8f9fa' }}>
                 <Container maxWidth="lg">
-                    <Typography variant="h2" sx={{
-                        color: '#111827',
-                        mb: 6,
-                        textAlign: 'center',
-                        fontWeight: 700,
-                        fontFamily: "'Noto Kufi Arabic', sans-serif"
-                    }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            color: '#111827',
+                            mb: 6,
+                            textAlign: 'center',
+                            fontWeight: 700,
+                            fontFamily: "'Noto Kufi Arabic', sans-serif"
+                        }}
+                    >
                         تواصل معنا
                     </Typography>
 
-                    <Grid container spacing={4}>
+                    <Grid container spacing={2}>
                         {/* Contact Information */}
                         <Grid item xs={12} md={6}>
-                            <ContactCard elevation={3}>
-                                <Typography variant="h5" sx={{
-                                    mb: 4,
-                                    color: '#006c35',
-                                    fontWeight: 600,
-                                    fontFamily: "'Noto Kufi Arabic', sans-serif"
-                                }}>
+                            <ContactCard elevation={2}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{
+                                        mb: 4,
+                                        color: '#006c35',
+                                        fontWeight: 600,
+                                        fontFamily: "'Noto Kufi Arabic', sans-serif"
+                                    }}
+                                >
                                     معلومات التواصل
                                 </Typography>
 
@@ -188,7 +186,7 @@ const ContactForm = () => {
                                             البريد الإلكتروني
                                         </Typography>
                                         <Typography variant="h6" sx={{ color: '#fff' }}>
-                                            elmamlaka@example.com
+                                            info@example.com
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -280,7 +278,6 @@ const ContactForm = () => {
                                         disabled={loading}
                                         sx={{
                                             bgcolor: '#006c35',
-                                            py: 1.5,
                                             fontFamily: almarai.style.fontFamily,
                                             '&:hover': { bgcolor: '#005a2b' },
                                             '&.Mui-disabled': { bgcolor: '#004422' }

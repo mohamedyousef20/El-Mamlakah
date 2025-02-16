@@ -1,5 +1,5 @@
-"use client"
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState, memo } from "react";
 import {
     Box,
     Stack,
@@ -9,7 +9,6 @@ import {
     MenuItem,
     Button,
     Typography,
-    useTheme,
     CircularProgress,
     Alert
 } from "@mui/material";
@@ -18,8 +17,6 @@ import { useRouter } from "next/navigation";
 
 const ServiceAreaProvinceSelector = () => {
     const router = useRouter();
-
-    // Use these parameters in your fetch request
 
     // Define regions and their corresponding provinces
     const regions = {
@@ -37,6 +34,7 @@ const ServiceAreaProvinceSelector = () => {
         "منطقة الجوف": ["سكاكا", "دومة الجندل"],
         "منطقة القصيم": ["بريدة", "عنيزة", "الزبيدة", "القناطر"],
     };
+
     // State hooks for selections
     const [selectedService, setSelectedService] = useState("");
     const [selectedArea, setSelectedArea] = useState("");
@@ -58,7 +56,6 @@ const ServiceAreaProvinceSelector = () => {
                 }
                 const data = await response.json();
                 setServices(data?.data ?? []);
-
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -68,6 +65,7 @@ const ServiceAreaProvinceSelector = () => {
 
         fetchServices();
     }, []);
+
     if (loading) {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
@@ -84,14 +82,10 @@ const ServiceAreaProvinceSelector = () => {
         );
     }
 
-    console.log("services", services)
-
-    // Update service selection
     const handleServiceChange = (e) => {
         setSelectedService(e.target.value);
     };
 
-    // When the user selects an area, update available provinces accordingly
     const handleAreaChange = (e) => {
         const area = e.target.value;
         setSelectedArea(area);
@@ -99,18 +93,18 @@ const ServiceAreaProvinceSelector = () => {
         setAvailableProvinces(regions[area] || []);
     };
 
-    // Update province selection
     const handleProvinceChange = (e) => {
         setSelectedProvince(e.target.value);
     };
 
-    // When the user confirms the selection, log the values (or trigger filtering/routing)
+    // Build query string only including non-empty fields
     const handleSubmit = () => {
-        console.log(selectedArea)
-        console.log(selectedService)
-        console.log(selectedProvince)
-
-        router.push(`/articles?service=${encodeURIComponent(selectedService)}&area=${encodeURIComponent(selectedArea)}&province=${encodeURIComponent(selectedProvince)}`);
+        const query = {};
+        if (selectedService) query.service = selectedService;
+        if (selectedArea) query.area = selectedArea;
+        if (selectedProvince) query.province = selectedProvince;
+        const queryString = new URLSearchParams(query).toString();
+        router.push(`/articles?${queryString}`);
     };
 
     return (
