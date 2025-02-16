@@ -126,7 +126,7 @@ export default function DashboardPage() {
                 >
                     نظرة عامة
                 </Typography>
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     {statsConfig.map((stat) => (
                         <Grid item xs={12} sm={6} md={4} key={stat.title}>
                             <StatCard>

@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Upload as UploadIcon, Close as CloseIcon } from '@mui/icons-material';
+import AdminNavBar from '@/components/AdminSideBar';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -117,6 +118,8 @@ export default function AddServicePage() {
 
     return (
         <Container maxWidth="md">
+            <AdminNavBar />
+
             <StyledPaper elevation={3}>
                 <Typography variant="h4" color="#111827" gutterBottom>
                     إضافة خدمة جديدة

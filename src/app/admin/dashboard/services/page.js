@@ -124,7 +124,7 @@ export default function ServicesPage() {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <Grid container spacing={3}>
+                            <Grid container spacing={2}>
                                 {services.map((service) => (
                                     <Grid item xs={12} sm={6} md={4} key={service._id}>
                                         <ServiceCard>

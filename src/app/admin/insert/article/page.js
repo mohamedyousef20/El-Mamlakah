@@ -14,6 +14,7 @@ import {
     styled
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AdminNavBar from '@/components/AdminSideBar';
 
 // Helper function: convert a data URL (base64 string) into a File object.
 function dataURItoFile(dataURI, filename) {
@@ -213,6 +214,8 @@ const AddArticle = () => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
+                <AdminNavBar/>
+
                 <Container maxWidth="lg">
                     <StyledPaper elevation={3}>
                         <Typography variant="h4" component="h1" gutterBottom color="primary">

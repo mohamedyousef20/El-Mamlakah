@@ -125,7 +125,7 @@ export default function CompaniesPage() {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <Grid container spacing={3}>
+                            <Grid container spacing={2}>
                                 {companies.map((company) => (
                                     <Grid item xs={12} sm={6} md={4} key={company._id}>
                                         <CompanyCard>

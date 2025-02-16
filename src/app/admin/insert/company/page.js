@@ -13,6 +13,7 @@ import {
     Grid,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import AdminNavBar from '@/components/AdminSideBar';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -130,6 +131,7 @@ export default function AddCompanyPage() {
 
     return (
         <Container maxWidth="md">
+            <AdminNavBar/>
             <StyledPaper elevation={3}>
                 <Typography variant="h4" color="#111827" gutterBottom>
                     إضافة شركة جديدة
