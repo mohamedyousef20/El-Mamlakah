@@ -12,11 +12,27 @@ import {
   Stack,
 } from '@mui/material';
 import InteractiveButtons from '../../../components/AtricleButton';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const OneArticle = async ({ params }) => {
   const { slug } = params;
-  const res = await fetch(`${API_BASE_URL}/api/v1/articles/${slug}`, { cache: "no-store" });
+
+
+try {
+  const res = await fetch(`${API_BASE_URL}/api/v1/articles/${slug}`, 
+    { cache: "no-store" });
+    if(!res.ok){
+      throw new Error("فشل في تحميل المقالات.");
+    }
   const data = await res.json();
+  
+} catch (error) {
+  setn
+  throw new Error("فشل في تحميل المقالات.");
+
+}
+
+
   const article = data.data;
 
   return (

@@ -62,12 +62,6 @@ export default function DashboardPage() {
                     companiesRes.json()
                 ]);
 
-                // Calculate total clicks
-                const totalClicks = companiesData.data.reduce((acc, company) => ({
-                    whatsapp: acc.whatsapp + (company.whatsappClicks || 0),
-                    phone: acc.phone + (company.phoneClicks || 0)
-                }), { whatsapp: 0, phone: 0 });
-
                 setStats({
                     articles: articlesData.count || articlesData.data?.length || 0,
                     companies: companiesData.count || companiesData.data?.length || 0,

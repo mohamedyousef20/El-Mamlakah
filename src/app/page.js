@@ -63,9 +63,21 @@ const theme = createTheme({
 });
 
 const page = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/v1/service`);
-  const data = await res.json();
-  const services = data.data;
+  let services = {};
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/service`);
+    if (!res.ok) {
+      throw new Error("فشل في التحميل .");
+
+    }
+    const data = await res.json();
+    services = data.data;
+
+  } catch (error) {
+    throw new Error("فشل في التحميل .");
+
+  }
+
   console.log(services)
 
   return (
@@ -128,7 +140,7 @@ const page = async () => {
             </Stack>
           </Container>
         </Box>
-<AdminDashboardButton/>
+        <AdminDashboardButton />
         {/* Main Content (Placeholder) */}
         <Container sx={{ my: 4 }}>
           <Grid container spacing={4}>

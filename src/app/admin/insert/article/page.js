@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AdminNavBar from '@/components/AdminSideBar';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 // Helper function: convert a data URL (base64 string) into a File object.
 function dataURItoFile(dataURI, filename) {
@@ -170,18 +171,26 @@ const AddArticle = () => {
                 console.log(key, value);
             }
 
-            const response = await fetch(`${API_BASE_URL}/api/v1/articles`, {
-                method: "POST",
-                body: dataToSend
-            });
+          try {
+              const response = await fetch(`${API_BASE_URL}/api/v1/articles`, {
+                  method: "POST",
+                  body: dataToSend
+                  
+              });
 
-            if (!response.ok) {
-                throw new Error("فشل في نشر المقال.");
-            }
+              if (!response.ok) {
+                  throw new Error("فشل في نشر المقال.");
+              }
+              const responseData = await response.json();
+              console.log("Response from server:", responseData);
 
-            const responseData = await response.json();
-            console.log("Response from server:", responseData);
 
+          } catch (error) {
+            throw new Error('حدث خطأ ما')
+          }
+           
+
+       
             setNotification({
                 open: true,
                 message: 'تم نشر المقال بنجاح!',

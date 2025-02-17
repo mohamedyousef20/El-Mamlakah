@@ -1,4 +1,6 @@
 export const revalidate = 60;
+
+import { API_BASE_URL } from "@/lib/apiConfig";
 import {
   Box,
   Container,
@@ -25,22 +27,29 @@ const AllArticlePage = async ({ searchParams }) => {
   if (area) apiUrl.searchParams.append("area", area);
   if (province) apiUrl.searchParams.append("province", province);
 
+  let articles = [];
   // Fetch articles from the backend with cache disabled
-  const res = await fetch(apiUrl.toString(), { cache: "no-store" });
-  const data = await res.json();
+  try {
+    const res = await fetch(apiUrl.toString(), { cache: "no-store" });
+    const data = await res.json();
+    // Ensure we have an array to work with
+    articles = Array.isArray(data?.data) ? data.data : [];
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    articles = [];
+  }
 
-  // Ensure we have an array to work with
-  const articles = Array.isArray(data?.data) ? data.data : [];
-
-  // Optionally, you can also check if filters exist:
+  // Check if any filters are applied
   const hasFilters = service || area || province;
 
   return (
-    <Box sx={{
-      backgroundColor: "#F4F4F4",
-      minHeight: "100vh",
-      py: { xs: 4, sm: 6 },
-    }}>
+    <Box
+      sx={{
+        backgroundColor: "#F4F4F4",
+        minHeight: "100vh",
+        py: { xs: 4, sm: 6 },
+      }}
+    >
       <Container>
         <Typography
           variant="h3"
@@ -156,7 +165,7 @@ const AllArticlePage = async ({ searchParams }) => {
           </Grid>
         )}
       </Container>
-    // </Box>
+    </Box>
   );
 };
 
