@@ -48,7 +48,7 @@ export default function AdminLogin() {
         setError('')
 
         try {
-            const res = await fetch('http://localhost:5500/api/v1/login', {
+            const res = await fetch(`${API_BASE_URL}/api/v1/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials)

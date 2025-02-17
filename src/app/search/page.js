@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/lib/apiConfig";
 
 const ServiceAreaProvinceSelector = () => {
     const router = useRouter();
@@ -50,7 +51,7 @@ const ServiceAreaProvinceSelector = () => {
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const response = await fetch("http://localhost:5500/api/v1/service");
+                const response = await fetch(`${API_BASE_URL}/api/v1/service`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

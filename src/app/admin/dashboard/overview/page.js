@@ -18,6 +18,7 @@ import {
 } from '@mui/icons-material';
 import AdminSideBar from '@/components/AdminSideBar';
 import ProtectedComponent from '@/components/ProtectedComponent';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const StatCard = styled(Card)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -36,7 +37,7 @@ export default function DashboardPage() {
         articles: 0,
         companies: 0,
         services: 0,
-  
+
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -46,9 +47,9 @@ export default function DashboardPage() {
             try {
                 // Fetch all data in parallel
                 const [articlesRes, servicesRes, companiesRes] = await Promise.all([
-                    fetch('http://localhost:5500/api/v1/articles'),
-                    fetch('http://localhost:5500/api/v1/service'),
-                    fetch('http://localhost:5500/api/v1/company')
+                    fetch(`${API_BASE_URL}/api/v1/articles`),
+                    fetch(`${API_BASE_URL}/api/v1/service`),
+                    fetch(`${API_BASE_URL}/api/v1/company`)
                 ]);
 
                 if (!articlesRes.ok || !servicesRes.ok || !companiesRes.ok) {
@@ -71,7 +72,7 @@ export default function DashboardPage() {
                     articles: articlesData.count || articlesData.data?.length || 0,
                     companies: companiesData.count || companiesData.data?.length || 0,
                     services: servicesData.count || servicesData.data?.length || 0,
-                
+
                 });
 
             } catch (err) {
@@ -89,7 +90,7 @@ export default function DashboardPage() {
         { title: 'المقالات', count: stats.articles, icon: <ArticleIcon /> },
         { title: 'الشركات', count: stats.companies, icon: <BusinessIcon /> },
         { title: 'الخدمات', count: stats.services, icon: <BuildIcon /> },
-      
+
     ];
 
     if (loading) {
@@ -183,6 +184,6 @@ export default function DashboardPage() {
                 </Grid>
             </Box>
         </ProtectedComponent>
-      
+
     );
 }

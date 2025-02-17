@@ -15,6 +15,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { Upload as UploadIcon, Close as CloseIcon } from '@mui/icons-material';
 import AdminNavBar from '@/components/AdminSideBar';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -79,7 +80,7 @@ export default function AddServicePage() {
         }
 
         try {
-            const response = await fetch('http://localhost:5500/api/v1/service', {
+            const response = await fetch(`${API_BASE_URL}/api/v1/service`, {
                 method: 'POST',
                 body: formDataToSend,
             });

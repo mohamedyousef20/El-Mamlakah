@@ -68,7 +68,7 @@ export default function CompaniesPage() {
         const fetchCompanies = async () => {
             setLoading(true);
             try {
-                const res = await fetch("http://localhost:5500/api/v1/company");
+                const res = await fetch(`${API_BASE_URL}/api/v1/company`);
                 if (!res.ok) {
                     throw new Error("فشل في تحميل الشركات.");
                 }
@@ -102,7 +102,7 @@ export default function CompaniesPage() {
     const handleConfirmDelete = async () => {
         if (!companyToDelete) return;
         try {
-            const res = await fetch("http://localhost:5500/api/v1/company/delete", {
+            const res = await fetch("${API_BASE_URL}/api/v1/company/delete", {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(companyToDelete)
@@ -139,7 +139,7 @@ export default function CompaniesPage() {
     // When the reusable update dialog is submitted, handle the update.
     const handleUpdate = async (updatedData) => {
         try {
-            const res = await fetch("http://localhost:5500/api/v1/company/update", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/company/update`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

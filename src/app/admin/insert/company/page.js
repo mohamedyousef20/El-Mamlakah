@@ -80,7 +80,7 @@ export default function AddCompanyPage() {
             };
 
             // API call
-            const response = await fetch('http://localhost:5500/api/v1/company', {
+            const response = await fetch(`${API_BASE_URL}/api/v1/company`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -131,7 +131,7 @@ export default function AddCompanyPage() {
 
     return (
         <Container maxWidth="md">
-            <AdminNavBar/>
+            <AdminNavBar />
             <StyledPaper elevation={3}>
                 <Typography variant="h4" color="#111827" gutterBottom>
                     إضافة شركة جديدة

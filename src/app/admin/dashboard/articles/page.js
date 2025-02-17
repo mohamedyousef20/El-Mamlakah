@@ -26,6 +26,7 @@ import Link from 'next/link';
 import ProtectedComponent from '@/components/ProtectedComponent';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 import UpdateArticleDialog from '@/components/UpdateArticleDialog';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const ArticleCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -68,7 +69,7 @@ export default function ArticlesPage() {
         const fetchArticles = async () => {
             setLoading(true);
             try {
-                const res = await fetch("http://localhost:5500/api/v1/articles");
+                const res = await fetch(`${API_BASE_URL}/api/v1/articles`);
                 if (!res.ok) {
                     throw new Error("فشل في تحميل المقالات.");
                 }
@@ -102,7 +103,7 @@ export default function ArticlesPage() {
     const handleConfirmDelete = async () => {
         if (!articleToDelete) return;
         try {
-            const res = await fetch("http://localhost:5500/api/v1/articles/delete", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/articles/delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(articleToDelete)
@@ -138,7 +139,7 @@ export default function ArticlesPage() {
     // When the update dialog form is submitted, send a PATCH request to update the article.
     const handleUpdate = async (updatedData) => {
         try {
-            const res = await fetch("http://localhost:5500/api/v1/articles/update", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/articles/update`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

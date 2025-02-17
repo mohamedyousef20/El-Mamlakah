@@ -30,6 +30,7 @@ import AdminSideBar from '@/components/AdminSideBar';
 import Link from 'next/link';
 import ProtectedComponent from '@/components/ProtectedComponent';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const ServiceCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -54,7 +55,7 @@ const StyledButton = styled(Button)({
 });
 
 export default function ServicesPage() {
-    const [services, setServices] = useState([]); 
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState({
         open: false,
@@ -70,14 +71,14 @@ export default function ServicesPage() {
     const [updateData, setUpdateData] = useState({
         name: '',
         desc: '',
-    
+
     });
 
     useEffect(() => {
         const fetchServices = async () => {
             setLoading(true);
             try {
-                const res = await fetch("http://localhost:5500/api/v1/service");
+                const res = await fetch(`${API_BASE_URL}/api/v1/service`);
                 if (!res.ok) {
                     throw new Error("فشل في تحميل الخدمات.");
                 }
@@ -111,7 +112,7 @@ export default function ServicesPage() {
     const handleConfirmDelete = async () => {
         if (!serviceToDelete) return;
         try {
-            const res = await fetch("http://localhost:5500/api/v1/service/delete", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/service/delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(serviceToDelete)
@@ -153,7 +154,7 @@ export default function ServicesPage() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:5500/api/v1/service/update", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/service/update`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

@@ -16,6 +16,7 @@ import { Phone } from 'lucide-react';
 import MainContent from '@/components/MainContent';
 import YouTubeVideo from '@/components/VideoSection';
 import AdminDashboardButton from '@/components/AdminDashboardButton';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 
 const theme = createTheme({
@@ -62,7 +63,7 @@ const theme = createTheme({
 });
 
 const page = async () => {
-  const res = await fetch("http://localhost:5500/api/v1/service");
+  const res = await fetch(`${API_BASE_URL}/api/v1/service`);
   const data = await res.json();
   const services = data.data;
   console.log(services)

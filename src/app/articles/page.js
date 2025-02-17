@@ -1,4 +1,4 @@
-export const revalidate = 60; 
+export const revalidate = 60;
 import {
   Box,
   Container,
@@ -20,7 +20,7 @@ const AllArticlePage = async ({ searchParams }) => {
   const { service, area, province } = searchParams || {};
 
   // Build the API URL using the provided filters
-  const apiUrl = new URL("http://localhost:5500/api/v1/articles");
+  const apiUrl = new URL(`${API_BASE_URL}/api/v1/articles`);
   if (service) apiUrl.searchParams.append("service", service);
   if (area) apiUrl.searchParams.append("area", area);
   if (province) apiUrl.searchParams.append("province", province);
@@ -37,7 +37,7 @@ const AllArticlePage = async ({ searchParams }) => {
 
   return (
     <Box sx={{
-      backgroundColor: "#F4F4F4", 
+      backgroundColor: "#F4F4F4",
       minHeight: "100vh",
       py: { xs: 4, sm: 6 },
     }}>

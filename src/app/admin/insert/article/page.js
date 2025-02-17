@@ -75,7 +75,7 @@ const AddArticle = () => {
     useEffect(() => {
         const fetchCompanies = async () => {
             try {
-                const res = await fetch("http://localhost:5500/api/v1/company");
+                const res = await fetch(`${API_BASE_URL}/api/v1/company`);
                 if (!res.ok) {
                     throw new Error("فشل في تحميل الشركات.");
                 }
@@ -170,7 +170,7 @@ const AddArticle = () => {
                 console.log(key, value);
             }
 
-            const response = await fetch("http://localhost:5500/api/v1/articles", {
+            const response = await fetch(`${API_BASE_URL}/api/v1/articles`, {
                 method: "POST",
                 body: dataToSend
             });
@@ -214,7 +214,7 @@ const AddArticle = () => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
-                <AdminNavBar/>
+                <AdminNavBar />
 
                 <Container maxWidth="lg">
                     <StyledPaper elevation={3}>

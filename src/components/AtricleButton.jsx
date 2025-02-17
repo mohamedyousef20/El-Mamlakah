@@ -6,10 +6,10 @@ import { Typography, Button, Stack } from "@mui/material";
 import { Phone, WhatsApp } from "@mui/icons-material";
 
 const InteractiveButtons = ({ phone, whatsapp, slug }) => {
-    console.log(phone,whatsapp,slug)
+    console.log(phone, whatsapp, slug)
     const handleWhatsAppClick = async () => {
         try {
-            await fetch(`http://localhost:5500/api/v1/articles/${slug}/whatsapp-click`, { method: "PATCH" });
+            await fetch(`${API_BASE_URL}/api/v1/articles/${slug}/whatsapp-click`, { method: "PATCH" });
         } catch (error) {
             console.error("Error updating WhatsApp clicks:", error);
         }
@@ -17,7 +17,7 @@ const InteractiveButtons = ({ phone, whatsapp, slug }) => {
 
     const handlePhoneClick = async () => {
         try {
-            await fetch(`http://localhost:5500/api/v1/articles/${slug}/phone-click`, { method: "PATCH" });
+            await fetch(`${API_BASE_URL}/api/v1/articles/${slug}/phone-click`, { method: "PATCH" });
         } catch (error) {
             console.error("Error updating Phone clicks:", error);
         }
