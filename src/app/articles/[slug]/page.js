@@ -17,23 +17,24 @@ import { API_BASE_URL } from '@/lib/apiConfig';
 const OneArticle = async ({ params }) => {
   const { slug } = params;
 
+  let article = [];
 
-try {
-  const res = await fetch(`${API_BASE_URL}/api/v1/articles/${slug}`, 
-    { cache: "no-store" });
-    if(!res.ok){
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/articles/${slug}`,
+      { cache: "no-store" });
+    if (!res.ok) {
       throw new Error("فشل في تحميل المقالات.");
     }
-  const data = await res.json();
-  
-} catch (error) {
-  setn
-  throw new Error("فشل في تحميل المقالات.");
-
-}
+    const data = await res.json();
+     article = data.data;
 
 
-  const article = data.data;
+  } catch (error) {
+    throw new Error("فشل في تحميل المقالات.");
+
+  }
+
+
 
   return (
     <Container maxWidth="lg" sx={{ py: { xs: 2, md: 4 } }}>
@@ -81,7 +82,7 @@ try {
             <List>
               {article.paragraphs?.map((section) => (
                 <ListItem
-                  key={section.id}
+                  key={section._id}
                   component="a"
                   href={`#${section._id}`}
                   sx={{

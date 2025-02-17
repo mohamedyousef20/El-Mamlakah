@@ -121,7 +121,7 @@ const page = async () => {
                   alignItems="center"
                   sx={{ color: '#111827', fontFamily: "'Tajawal', sans-serif", fontSize: ".75rem" }}
                 >
-                  info@company.com<Email />
+                  elmamlaka@gmail.com<Email />
                 </Typography>
               </Stack>
 

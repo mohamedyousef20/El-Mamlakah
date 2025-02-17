@@ -26,6 +26,7 @@ import Link from 'next/link';
 import ProtectedComponent from '@/components/ProtectedComponent';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 import UpdateDialog from '@/components/UpdateDialog';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const CompanyCard = styled(Paper)(({ theme }) => ({
     backgroundColor: '#111827',
@@ -102,7 +103,7 @@ export default function CompaniesPage() {
     const handleConfirmDelete = async () => {
         if (!companyToDelete) return;
         try {
-            const res = await fetch("${API_BASE_URL}/api/v1/company/delete", {
+            const res = await fetch(`${API_BASE_URL}/api/v1/company/delete`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(companyToDelete)

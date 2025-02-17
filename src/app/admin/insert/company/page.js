@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Paper,
@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AdminNavBar from '@/components/AdminSideBar';
+import { API_BASE_URL } from '@/lib/apiConfig';
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
@@ -23,7 +24,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function AddCompanyPage() {
-    // Define regions and their corresponding provinces
+    // تعريف المناطق والمحافظات
     const regions = {
         "منطقة الرياض": ["الرياض", "الخرج", "الدوادمي", "الزلفي", "المجمعة"],
         "منطقة مكة": ["مكة المكرمة", "جدة", "الطائف", "القنفذة"],
@@ -40,13 +41,34 @@ export default function AddCompanyPage() {
         "منطقة القصيم": ["بريدة", "عنيزة", "الزبيدة", "القناطر"],
     };
 
-    // Sample services array; later you can fetch these from an API
-    const [services, setServices] = useState([
-        { id: 1, name: 'خدمة 1' },
-        { id: 2, name: 'خدمة 2' },
-    ]);
+    // حالة الخدمات المُسترجعة
+    const [services, setServices] = useState([]);
+    // حالة الخطأ عند جلب الخدمات
+    const [error, setError] = useState('');
+    // حالة التحميل
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        const fetchServices = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/v1/service`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setServices(data?.data ?? []);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchServices();
+    }, []);
+
+    // حالة بيانات النموذج
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -55,15 +77,17 @@ export default function AddCompanyPage() {
         area: '',
         province: '',
     });
+
+    // حالة الإشعارات
     const [notification, setNotification] = useState({
         open: false,
         message: '',
         severity: 'success'
     });
 
-    // Get area names from regions object keys
+    // استخراج أسماء المناطق من الكائن regions
     const areas = Object.keys(regions);
-    // Get provinces for selected area
+    // استخراج المحافظات بناءً على المنطقة المحددة
     const provinces = formData.area ? regions[formData.area] : [];
 
     const handleSubmit = async (e) => {
@@ -79,7 +103,7 @@ export default function AddCompanyPage() {
                 province: formData.province,
             };
 
-            // API call
+            // إجراء الاتصال بواجهة API لإضافة الشركة
             const response = await fetch(`${API_BASE_URL}/api/v1/company`, {
                 method: "POST",
                 headers: {
@@ -94,17 +118,13 @@ export default function AddCompanyPage() {
 
             const data = await response.json();
             console.log("Response from server:", data);
-            setNotification(prev => ({ ...prev, open: false })); // Close first to trigger re-render
-            setTimeout(() => {
-                setNotification({
-                    open: true,
-                    message: 'تم إضافة الشركة بنجاح!',
-                    severity: 'success'
-                });
-            }, 100); // Delay opening
+            setNotification({
+                open: true,
+                message: 'تم إضافة الشركة بنجاح!',
+                severity: 'success'
+            });
 
-
-            // Reset form
+            // إعادة تعيين بيانات النموذج
             setFormData({
                 name: '',
                 phone: '',
@@ -137,6 +157,13 @@ export default function AddCompanyPage() {
                     إضافة شركة جديدة
                 </Typography>
 
+                {/* عرض رسالة الخطأ إذا حدث أثناء جلب الخدمات */}
+                {error && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+
                 {notification.open && (
                     <Alert
                         severity={notification.severity}
@@ -154,7 +181,9 @@ export default function AddCompanyPage() {
                                 fullWidth
                                 label="اسم الشركة"
                                 value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, name: e.target.value })
+                                }
                                 required
                             />
                         </Grid>
@@ -164,7 +193,9 @@ export default function AddCompanyPage() {
                                 fullWidth
                                 label="رقم الهاتف"
                                 value={formData.phone}
-                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, phone: e.target.value })
+                                }
                                 required
                             />
                         </Grid>
@@ -174,7 +205,9 @@ export default function AddCompanyPage() {
                                 fullWidth
                                 label="رقم الواتساب"
                                 value={formData.whatsapp}
-                                onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, whatsapp: e.target.value })
+                                }
                                 required
                             />
                         </Grid>
@@ -185,11 +218,13 @@ export default function AddCompanyPage() {
                                 select
                                 label="الخدمة"
                                 value={formData.service}
-                                onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, service: e.target.value })
+                                }
                                 required
                             >
                                 {services.map((service) => (
-                                    <MenuItem key={service.id} value={service.id}>
+                                    <MenuItem key={service._id} value={service._id}>
                                         {service.name}
                                     </MenuItem>
                                 ))}
@@ -203,7 +238,11 @@ export default function AddCompanyPage() {
                                 label="المنطقة"
                                 value={formData.area}
                                 onChange={(e) =>
-                                    setFormData({ ...formData, area: e.target.value, province: '' })
+                                    setFormData({
+                                        ...formData,
+                                        area: e.target.value,
+                                        province: '',
+                                    })
                                 }
                                 required
                             >
@@ -221,7 +260,9 @@ export default function AddCompanyPage() {
                                 select
                                 label="المحافظة"
                                 value={formData.province}
-                                onChange={(e) => setFormData({ ...formData, province: e.target.value })}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, province: e.target.value })
+                                }
                                 required
                                 disabled={!formData.area}
                             >

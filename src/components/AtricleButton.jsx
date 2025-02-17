@@ -4,6 +4,7 @@
 import React from "react";
 import { Typography, Button, Stack } from "@mui/material";
 import { Phone, WhatsApp } from "@mui/icons-material";
+import { API_BASE_URL } from "@/lib/apiConfig";
 
 const InteractiveButtons = ({ phone, whatsapp, slug }) => {
     console.log(phone, whatsapp, slug)

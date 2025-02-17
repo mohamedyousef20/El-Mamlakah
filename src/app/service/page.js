@@ -17,6 +17,7 @@ import PoolIcon from '@mui/icons-material/Pool';
 import AirIcon from '@mui/icons-material/Air';
 import WeekendIcon from '@mui/icons-material/Weekend';
 import { CarRental } from "@mui/icons-material";
+import Link from "next/link";
 
 const services = [
     {
@@ -51,7 +52,7 @@ const services = [
     },
     {
         title: 'تنظيف وتعقيم السيارات',
-        icon: <CarRental/>,
+        icon: <CarRental />,
         description:
             'تنظيف وتعقيم السيارات في المكان المطلوب باحدث تقنيات التنظيف والتعقيم وباستخدام البخار'
     }
@@ -114,19 +115,21 @@ const ServicesPage = () => {
                     >
                         أفضل خدمات التنظيف والتعقيم للمنازل، المكاتب، والسيارات
                     </Typography>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        sx={{
-                            bgcolor: '#006c35',
-                            px: 6,
-                            py: 1.5,
-                            '&:hover': { bgcolor: '#005a2b' },
-                            fontFamily: 'Almarai, sans-serif'
-                        }}
-                    >
-                        اتصل بنا
-                    </Button>
+                    <Link href={'/contact'}>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            sx={{
+                                bgcolor: '#006c35',
+                                px: 6,
+                                py: 1.5,
+                                '&:hover': { bgcolor: '#005a2b' },
+                                fontFamily: 'Almarai, sans-serif'
+                            }}
+                        >
+                            اتصل بنا
+                        </Button>
+                    </Link>
                 </Container>
             </ServiceHero>
 

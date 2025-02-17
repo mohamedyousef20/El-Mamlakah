@@ -16,6 +16,7 @@ import {
 import { Phone, Email, LocationOn, WhatsApp } from '@mui/icons-material';
 // Load Almarai font from Next.js
 import { Almarai } from 'next/font/google';
+import { API_BASE_URL } from '@/lib/apiConfig';
 const almarai = Almarai({
     weight: ['300', '400', '700'],
     subsets: ['arabic'],
@@ -186,7 +187,7 @@ const ContactForm = () => {
                                             البريد الإلكتروني
                                         </Typography>
                                         <Typography variant="h6" sx={{ color: '#fff' }}>
-                                            info@example.com
+                                            elmamlaka@gmail.com
                                         </Typography>
                                     </Box>
                                 </Box>

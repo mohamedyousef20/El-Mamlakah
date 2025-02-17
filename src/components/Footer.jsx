@@ -77,11 +77,11 @@ const Footer = () => {
                         <ul className="space-y-2">
                             <li className="flex items-center gap-2">
                                 <Clock size={18} />
-                                <span>أحد - الخميس: 8 صباحاً - 10 مساءً</span>
+                                <span>السبت - الخميس: 8 صباحاً - 10 مساءً</span>
                             </li>
                             <li className="flex items-center gap-2">
                                 <Clock size={18} />
-                                <span>الجمعة والسبت: مغلق</span>
+                                <span>الجمعة : مغلق</span>
                             </li>
                         </ul>
                     </div>
